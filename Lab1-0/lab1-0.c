@@ -1,9 +1,8 @@
-
 #include <stdio.h>
 #include <malloc.h>
 #include <strings.h>
 
-#define SAMPLE_LEN 16
+#define SAMPLE_LEN (16 + 1)
 
 void filltable(char *smpl, int *table, int len){
     table[len - 1] = len;
@@ -17,45 +16,46 @@ void filltable(char *smpl, int *table, int len){
 
 
 int main(){
-    char smpl[SAMPLE_LEN], *text = (char*) malloc(sizeof(char));
-    int *table;
+    char smpl[SAMPLE_LEN], *text ,txtChar;
+    int *table, txtSize = 1;
 
     gets(smpl);
-    //gets(text);
-    int smpllen = strlen(smpl);
+    int LenSmpl = strlen(smpl);
+    text = (char*)malloc(1*sizeof(char));
+    txtChar = getc(stdin);
+    while(txtChar != EOF){
+        text[txtSize - 1] = txtChar;
+        txtChar = getc(stdin);
+        txtSize++;
+        text = (char*)realloc(text,txtSize * sizeof(char));
+    }
 
     table = (int*)malloc(strlen(smpl)*sizeof(int));
-    filltable(smpl,table,strlen(smpl));
-    int shift = strlen(smpl);
-    int txtLen = 0;
-    int *cmprsns = (int*)(malloc(sizeof(int))), cmprsnsLen = 1;
-    for(;;){
-        for(int i = 0; i < shift; i++){
-            text[txtLen] = getchar();
-            txtLen++;
-            text =(char*)realloc(text,txtLen * sizeof(char));
-        }
-        for (int i = txtLen - 1 , j = smpllen - 1; i > txtLen - smpllen; i--,j--){
-            if(text[i] == smpl[j]){
-                cmprsns[cmprsnsLen - 1] = i + 1;
-                cmprsns = (int*)realloc(cmprsns,cmprsnsLen * sizeof(int));
-                cmprsnsLen++;
+    filltable(smpl,table,LenSmpl);
+
+    int currIndex, textIndex, LenText = strlen(text);
+    currIndex = LenSmpl - 1;
+    textIndex = LenSmpl;
+
+    while (textIndex < LenText){
+        for(int i = LenSmpl - 1; i >= 0; i--)
+            if(smpl[i] == text[currIndex] ){
+                printf("%d ",currIndex + 1);
+                currIndex--;
+                if((textIndex == LenText - 1||currIndex == LenText - 1) && (i == 0 || i== LenSmpl - 1))
+                    return 0;
             }
-            else{
-                cmprsns[cmprsnsLen - 1] = i + 1;
-                cmprsns = (int*)realloc(cmprsns,cmprsnsLen * sizeof(int));
-                cmprsnsLen++;
-                if(strrchr(smpl,text[i]) != NULL)
-                    shift += table[strrchr(smpl,text[i]) - smpl];
+            else {
+                printf("%d ",currIndex + 1);
+
+                if(strrchr(smpl,text[currIndex]) == NULL)
+                    currIndex = textIndex + table[LenSmpl - 1] - 1;
                 else
-                    shift += table[strlen(smpl)];
+                    currIndex = textIndex + table[strrchr(smpl,text[currIndex])-smpl];
+
+                textIndex = currIndex;
                 break;
             }
 
-        }
-
-
-
-
     }
-}
+    }
