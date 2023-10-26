@@ -23,6 +23,7 @@ int main(){
     int LenSmpl = strlen(smpl);
     text = (char*)malloc(1*sizeof(char));
     txtChar = getc(stdin);
+
     while(txtChar != EOF){
         text[txtSize - 1] = txtChar;
         txtChar = getc(stdin);
@@ -37,13 +38,20 @@ int main(){
     currIndex = LenSmpl - 1;
     textIndex = LenSmpl;
 
-    while (textIndex < LenText){
-        for(int i = LenSmpl - 1; i >= 0; i--)
+    if (txtSize-1==0){
+        return 0;
+    }
+
+
+    while (textIndex < LenText+1){
+        for(int i = LenSmpl-1; i >= 0; i--)
             if(smpl[i] == text[currIndex] ){
                 printf("%d ",currIndex + 1);
                 currIndex--;
-                if((textIndex == LenText - 1||currIndex == LenText - 1) && (i == 0 || i== LenSmpl - 1))
+                if(currIndex + LenSmpl == LenText -1  && i == 0)
                     return 0;
+                else if(currIndex + LenSmpl != LenText - 1  && i == 0)
+                    currIndex = textIndex + table[LenSmpl - 1]-1;
             }
             else {
                 printf("%d ",currIndex + 1);
