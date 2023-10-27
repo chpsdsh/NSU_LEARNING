@@ -47,8 +47,8 @@ int cmprsn(int *table,char *text,char *smpl, int textIndex) {
 }
 
 int main() {
-    char smpl[SAMPLE_LEN], *text, txtChar;
-    int txtSize = 1;
+    char smpl[SAMPLE_LEN], *text;
+    int txtSize = 1, txtChar;
 
     gets(smpl);
     int LenSmpl = strlen(smpl);
@@ -56,7 +56,7 @@ int main() {
     txtChar = getc(stdin);
 
     while (txtChar != EOF) {
-        text[txtSize - 1] = txtChar;
+        text[txtSize - 1] = (char) txtChar;
         txtChar = getc(stdin);
         txtSize++;
         text = (char *) realloc(text, txtSize * sizeof(char));
