@@ -5,7 +5,7 @@
 #define SAMPLE_LEN (16 + 1)
 
 void filltable(char *smpl, int *table, int len){
-    table[len - 1] = len-1;
+    table[len - 1] = len - 1;
     for(int i = len-2; i >= 0; i--){
         if(strrchr(smpl,smpl[i]) - smpl == i)
             table[i] = len - i - 1;
@@ -20,6 +20,8 @@ int move(int*table,int ind, char *smpl, char symbol){
         return strlen(smpl);
     else if(strchr(smpl,symbol)==NULL && ind != strlen(smpl) - 1)
         return table[strlen(smpl)-1];
+    else if(ind == 0)
+        return strlen(smpl);
     else{
         return table[strchr(smpl,symbol)-smpl];
     }
@@ -71,7 +73,7 @@ int main() {
         return 0;
     }
 
-    while (textIndex <= txtSize) {
+    while (textIndex < txtSize-1) {
         textIndex = cmprsn(table,text,smpl,textIndex) ;
     }
 }
