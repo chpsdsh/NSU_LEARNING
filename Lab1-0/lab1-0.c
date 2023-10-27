@@ -11,49 +11,37 @@ void filltable(char *smpl, int *table, int len){
             table[i] = len - i - 1;
         else
             table[i] = table[strrchr(smpl,smpl[i]) - smpl];
-
     }
-
 }
 
 
-int move(int ind, char *smpl, char symbol){
-    int *table = (int *) malloc(strlen(smpl) * sizeof(int));
-    filltable(smpl, table, strlen(smpl));
-
+int move(int*table,int ind, char *smpl, char symbol){
     if (strchr(smpl,symbol)==NULL && ind == strlen(smpl) - 1)
         return strlen(smpl);
     else if(strchr(smpl,symbol)==NULL && ind != strlen(smpl) - 1)
         return table[strlen(smpl)-1];
-    else
-        return table[strrchr(smpl,symbol)-smpl-1] - 1;
-
+    else{
+        return table[strchr(smpl,symbol)-smpl];
+    }
 }
 
 
-int cmprsn(char *text,char *smpl, int textIndex) {
-    int currIndex = textIndex ,i;
-    for (i = strlen(smpl) - 1; i >= 0; i--){
-        if(smpl[i] == text[currIndex]){
-            printf("%d ",currIndex + 1);
-            currIndex--;
-            if(currIndex==-1){
-                currIndex = textIndex + strlen(text);
-                return currIndex;
-            }
+int cmprsn(int *table,char *text,char *smpl, int textIndex) {
+    int currIndex = textIndex, i;
 
-        }
-        else{
-            printf("%d ",currIndex + 1);
-            currIndex = textIndex + move(i,smpl,text[currIndex]);
+    for (i = strlen(smpl) - 1; i >= 0; i--) {
+        if (smpl[i] == text[currIndex]) {
+            printf("%d ", currIndex + 1);
+            if(i!=0)
+                currIndex--;
+            else
+                return textIndex+ strlen(smpl);
+        }else {
+            printf("%d ", currIndex + 1);
+            currIndex = textIndex + move(table, i, smpl, text[currIndex]);
             return currIndex;
         }
     }
-
-
-
-    if (textIndex+1 == strlen(text))
-        exit(0);
 }
 
 int main() {
@@ -76,12 +64,15 @@ int main() {
 
     textIndex = LenSmpl - 1;
 
+    int *table = (int *) malloc(strlen(smpl) * sizeof(int));
+    filltable(smpl, table, strlen(smpl));
+
     if (txtSize - 1 == 0) {
         return 0;
     }
 
-    while (textIndex < txtSize) {
-        textIndex = cmprsn(text,smpl,textIndex) ;
+    while (textIndex <= txtSize) {
+        textIndex = cmprsn(table,text,smpl,textIndex) ;
     }
 }
 
