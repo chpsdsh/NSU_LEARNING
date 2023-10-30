@@ -71,9 +71,8 @@ int main() {
     int *table = (int *) malloc(strlen(smpl) * sizeof(int));
     filltable(smpl, table, strlen(smpl));
 
-    if (txtSize - 1 == 0) {
+    if (txtSize - 1 == 0) 
         return 0;
-    }
 
     while (textIndex < txtSize-1) {
         textIndex = cmprsn(table,text,smpl,textIndex) ;
