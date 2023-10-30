@@ -3,7 +3,6 @@
 #include <strings.h>
 
 
-
 #define SAMPLE_LEN (16 + 1)
 
 
@@ -47,6 +46,7 @@ int cmprsn(int *table,char *text,char *smpl, int textIndex) {
         }
     }
 }
+
 
 int main() {
     char smpl[SAMPLE_LEN], *text;
