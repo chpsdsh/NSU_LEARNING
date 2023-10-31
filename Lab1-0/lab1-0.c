@@ -6,7 +6,7 @@
 #define SAMPLE_LEN (16 + 1)
 
 
-void filltable(char *smpl, int *table, int len){
+void filltable(char *smpl, int *table, int len){    //filling table of sample
     table[len - 1] = len - 1;
     for(int i = len - 2; i >= 0; i--){
         if(strrchr(smpl,smpl[i]) - smpl == i)
@@ -17,7 +17,7 @@ void filltable(char *smpl, int *table, int len){
 }
 
 
-int move(int *table, int ind, char *smpl, char symbol){
+int move(int *table, int ind, char *smpl, char symbol){                                  //moving the sample
     if (strchr(smpl,symbol) == NULL && ind == strlen(smpl) - 1 || ind == 0)
         return strlen(smpl);
     else if(strchr(smpl,symbol) == NULL && ind != strlen(smpl) - 1)
@@ -28,7 +28,7 @@ int move(int *table, int ind, char *smpl, char symbol){
 }
 
 
-int cmprsn(int *table,char *text,char *smpl, int textIndex) {
+int cmprsn(int *table,char *text,char *smpl, int textIndex) {  //comparing sample with text
     int currIndex = textIndex, i;
 
     for (i = strlen(smpl) - 1; i >= 0; i--) {
@@ -71,12 +71,10 @@ int main() {
     int *table = (int *) malloc(strlen(smpl) * sizeof(int));
     filltable(smpl, table, strlen(smpl));
 
-    if (txtSize - 1 == 0) {
+    if (txtSize - 1 == 0)
         return 0;
-    }
 
     while (textIndex < txtSize-1) {
         textIndex = cmprsn(table,text,smpl,textIndex) ;
     }
 }
-
