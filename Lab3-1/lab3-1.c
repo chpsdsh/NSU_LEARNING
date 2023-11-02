@@ -12,18 +12,20 @@ void swap(int *arr, int ind1, int ind2){
 
 int partition(int *arr, int low, int high) {
     int pivot = arr[(low + high) / 2];
-    int i = low - 1, j = high + 1;
+    int i = low , j = high ;
     while (1) {
-        do {
+        while (arr[i] < pivot)
             i++;
-        } while (arr[i] < pivot);
-        do {
+
+        while (arr[j] > pivot)
             j--;
-        } while (arr[j] > pivot);
-        if (i >= j) {
+
+        if (i >= j)
             return j;
-        }
+
         swap(arr, i, j);
+        i++;
+        j--;
     }
 }
 
