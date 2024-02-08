@@ -20,7 +20,7 @@ TREE {
 };
 
 
-TREE* create(int key, int value, int height) {
+TREE* create(int key, int value) {
     TREE *res;
     res = (TREE*)malloc(sizeof(TREE));
     res -> key = key;
@@ -32,27 +32,82 @@ TREE* create(int key, int value, int height) {
     return res;
 }
 
-void add(TREE *tree,int key, int value){
-    TREE *child;
+void insert(TREE *tree,int key, int value){
     if(tree != NULL){
         if(tree->key > key){
             if(tree->left == NULL)
-                tree->left = create(key,value,0);
+                tree->left = create(key,value);
             else
-                add(tree->left,key,value);
+                insert(tree->left,key,value);
         }
         else if (tree->key <= key){
             if(tree->right == NULL)
-                tree->right = create(key,value,0);
+                tree->right = create(key,value);
             else
-                add(tree->right,key,value);
+                insert(tree->right,key,value);
         }
-
     }
 }
 
-void getHeight(TREE *tree){
+int getHeight(TREE*tree){
+    if (tree == NULL)
+        return -1;
+    else
+        return tree->height;
+}
+
+void updateHeight(TREE *tree){
    tree->height = max(tree->left->height,tree->right->height) + 1;
+}
+
+int IsBalanced(TREE *tree){
+    if(tree != NULL)
+        return getHeight(tree->right) - getHeight(tree->left);
+}
+
+void swap(TREE *t1, TREE *t2){
+    int t1_key = t1->key;
+    t1->key = t2->key;
+    t2->key = t1_key;
+    int t1_value = t1->value;
+    t1->value = t2->value;
+    t2->value = t1_value;
+}
+
+void rightTurn(TREE *tree){
+    swap(tree,tree->left);
+    TREE *buf = tree->right;
+    tree->right = tree->left;
+    tree->left = tree->right->left;
+    tree->right->left = tree->right->right;
+    tree->right->right = buf;
+    updateHeight(tree->right);
+    updateHeight(tree);
+}
+
+void leftTurn(TREE *tree){
+    swap(tree,tree->right);
+    TREE *buf = tree->left;
+    tree->left = tree->right;
+    tree->right = tree->left->right;
+    tree-> left->right = tree->left->left;
+    tree->left->left = buf;
+    updateHeight(tree->left);
+    updateHeight(tree);
+}
+
+void balance(TREE *tree){
+    int balance = IsBalanced(tree);
+    if(balance == -2){
+        if(IsBalanced(tree->left)==1)
+            leftTurn(tree);
+        rightTurn(tree);
+    }
+    else if(balance == 2){
+        if(IsBalanced(tree->left)==-1)
+            rightTurn(tree);
+        leftTurn(tree);
+    }
 }
 
 #endif //NSU_LEARNING_AVLTREE_H
