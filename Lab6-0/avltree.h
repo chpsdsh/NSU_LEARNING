@@ -20,16 +20,16 @@ TREE {
 };
 
 
-TREE* create(int key, int value) {
-    TREE *res;
-    res = (TREE*)malloc(sizeof(TREE));
-    res -> key = key;
-    res -> value = value;
-    res -> height = 0;
-    res -> left = NULL;
-    res -> right = NULL;
 
-    return res;
+TREE* create(int key, int value) {
+    TREE *tree;
+    tree = (TREE*)malloc(sizeof(TREE));
+    tree -> key = key;
+    tree -> value = value;
+    tree -> height = 0;
+    tree -> left = NULL;
+    tree -> right = NULL;
+    return tree;
 }
 void updateHeight(TREE *tree);
 void balance(TREE *tree);
@@ -49,8 +49,6 @@ void insert(TREE *tree,int key, int value){
     }
     updateHeight(tree);
     balance(tree);
-
-
 }
 
 int getHeight(TREE*tree){
@@ -113,5 +111,12 @@ void balance(TREE *tree){
         leftTurn(tree);
     }
 }
-
+TREE* FillTree( int *values,int N){
+    TREE *tree = create(0,values[0]);
+    for (int i = 1; i < N ; i++){
+        if(tree!= NULL)
+            insert(tree, i, values[i]);
+    }
+    return tree;
+}
 #endif //NSU_LEARNING_AVLTREE_H
