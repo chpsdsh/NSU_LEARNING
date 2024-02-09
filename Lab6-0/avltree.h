@@ -31,22 +31,26 @@ TREE* create(int key, int value) {
 
     return res;
 }
+void updateHeight(TREE *tree);
+void balance(TREE *tree);
 
 void insert(TREE *tree,int key, int value){
-    if(tree != NULL){
-        if(tree->key > key){
-            if(tree->left == NULL)
-                tree->left = create(key,value);
-            else
-                insert(tree->left,key,value);
-        }
-        else if (tree->key <= key){
-            if(tree->right == NULL)
-                tree->right = create(key,value);
-            else
-                insert(tree->right,key,value);
-        }
+    if(tree->key > key){
+        if(tree->left == NULL)
+            tree->left = create(key,value);
+        else
+            insert(tree->left,key,value);
     }
+    else if (tree->key <= key){
+        if(tree->right == NULL)
+            tree->right = create(key,value);
+        else
+            insert(tree->right,key,value);
+    }
+    updateHeight(tree);
+    balance(tree);
+
+
 }
 
 int getHeight(TREE*tree){
@@ -57,7 +61,7 @@ int getHeight(TREE*tree){
 }
 
 void updateHeight(TREE *tree){
-   tree->height = max(tree->left->height,tree->right->height) + 1;
+    tree->height = max(getHeight(tree->left),getHeight(tree->right)) + 1;
 }
 
 int IsBalanced(TREE *tree){
