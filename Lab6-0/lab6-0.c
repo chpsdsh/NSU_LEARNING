@@ -1,6 +1,8 @@
-#include <stdio.h>
-#include <malloc.h>
 #include "avltree.h"
+#include <malloc.h>
+#include <stdio.h>
+
+
 int main() {
     FILE *file = fopen("in.txt", "r");
 
