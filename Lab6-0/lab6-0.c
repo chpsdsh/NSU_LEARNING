@@ -1,26 +1,23 @@
 #include <stdio.h>
+#include <malloc.h>
 #include "avltree.h"
-
 int main() {
     FILE *file = fopen("in.txt", "r");
-    if (file == NULL) {
-        printf("Unable to open file.\n");
-        return 1;
-    }
     int N;
     fscanf(file, "%d", &N);
-    if (N == 0) {
+    if(N==0){
         puts("0");
-        fclose(file); // Закрываем файл
         return 0;
     }
-    int *values = (int*) malloc((N)*sizeof(int));
-
-    for (int i = 0; i < N; i++) {
-        fscanf(file, "%d", &values[i]);
+    TREE*root = NULL;
+    TREE *nodearr = (TREE*)malloc(N*sizeof (TREE));
+    for(int i = 0; i < N; i++){
+        create(0,nodearr, i);
+        int value;
+        fscanf(file, "%d", &value);
+        root = insert(root,value, &nodearr[i]);
     }
-    printf("%d", FillTree(values,N)->height + 1);
-    free(values);
-    fclose(file); // Закрываем файл
-    return 0;
+    printf("%d", root->height+1);
+    fclose(file);
+    free(nodearr);
 }
