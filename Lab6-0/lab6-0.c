@@ -18,9 +18,9 @@ int main() {
     TREE *nodearr = (TREE*)malloc(N*sizeof(TREE));
 
     for(int i = 0; i < N; i++){
-        create(0,nodearr, i);
         int value;
         fscanf(file, "%d", &value);
+        create(value,nodearr, i);
         root = insert(root,value, &nodearr[i]);
     }
 
