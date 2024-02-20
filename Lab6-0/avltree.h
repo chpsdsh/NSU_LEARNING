@@ -106,4 +106,35 @@ TREE*insert(TREE* tree, int value, TREE *nodes){//inserting new nodes to tree
     tree->height = updateHeight(tree);
     return balance(tree);
 }
+
+
+void PreOrder(TREE *T) {
+    printf("%d", T -> value);
+
+    if (T -> left != NULL)
+        PreOrder(T -> left);
+    if (T -> right != NULL)
+        PreOrder(T -> right);
+}
+
+
+void PostOrder(TREE *T) {
+    if (T -> left != NULL)
+        PostOrder(T -> left);
+    if (T -> right != NULL)
+        PostOrder(T -> right);
+
+    printf("%d", T -> value);
+}
+
+
+void InOrder(TREE *T) {
+    if (T -> left != NULL)
+        InOrder(T -> left);
+
+    printf("%d", T -> value);
+
+    if (T -> right != NULL)
+        InOrder(T -> right);
+}
 #endif

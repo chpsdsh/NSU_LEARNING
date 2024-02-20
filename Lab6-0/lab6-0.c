@@ -7,7 +7,11 @@ int main() {
     FILE *file = fopen("in.txt", "r");
 
     int N;
-    fscanf(file, "%d", &N);
+    if(!fscanf(file, "%d", &N)){
+        fclose(file);
+        return 0;
+    }
+
 
     if(N==0){
         puts("0");
@@ -19,7 +23,10 @@ int main() {
 
     for(int i = 0; i < N; i++){
         int value;
-        fscanf(file, "%d", &value);
+        if(!fscanf(file, "%d", &value)){
+            fclose(file);
+            return 0;
+        }
         create(value,nodearr, i);
         root = insert(root,value, &nodearr[i]);
     }
