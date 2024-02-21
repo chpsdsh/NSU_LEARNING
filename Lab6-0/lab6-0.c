@@ -31,7 +31,7 @@ int main() {
         root = insert(root,value, &nodearr[i]);
     }
 
-    printf("%d", root->height + 1);
+    printf("%d", getHeight(root)+1);
 
     fclose(file);
     free(nodearr);

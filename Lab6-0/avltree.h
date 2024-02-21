@@ -6,7 +6,6 @@
 #include <malloc.h>
 #include <stdio.h>
 
-
 int max(int h1, int h2){//returns maximum
     if (h1 >= h2)
         return h1;
@@ -14,34 +13,28 @@ int max(int h1, int h2){//returns maximum
         return h2;
 }
 
-
 TREE{
     int value;
-    int height;
     TREE *left;
     TREE *right;
 };
 
 
 TREE*create(int value, TREE*arr, int counter){ //creating new nodes
-    arr[counter].height = 0;
     arr[counter].value = value;
     arr[counter].left = arr[counter].right = 0;
     return &arr[counter];
 }
 
 
-int getHeight(TREE*tree){ //returns height
+int getHeight(TREE* tree) {
     if (tree == NULL)
         return -1;
-    else
-        return tree->height;
-}
 
+    int leftHeight = getHeight(tree->left);
+    int rightHeight = getHeight(tree->right);
 
-int updateHeight(TREE *tree){//updates height
-    tree->height = max(getHeight(tree->left),getHeight(tree->right)) + 1;
-    return tree->height;
+    return 1 + max(leftHeight, rightHeight);
 }
 
 
@@ -50,8 +43,7 @@ TREE *rightTurn(TREE *tree){
 
     tree->left = left->right;
     left->right = tree;
-    tree->height = updateHeight(tree);
-    left->height = updateHeight(left);
+
 
     return left;
 }
@@ -62,8 +54,7 @@ TREE *leftTurn(TREE *tree){
 
     tree->right = right->left;
     right->left = tree;
-    tree->height = updateHeight(tree);
-    right->height = updateHeight(right);
+
 
     return right;
 }
@@ -77,7 +68,6 @@ int IsBalanced(TREE *tree){//Check for balance
 }
 
 TREE*balance(TREE*tree){//balancing tree
-    updateHeight(tree);
     int balance = IsBalanced(tree);
 
     if(balance==-2){
@@ -98,12 +88,11 @@ TREE*insert(TREE* tree, int value, TREE *nodes){//inserting new nodes to tree
     if(tree == NULL){
         return create( value,nodes,0);
     }
-    if(value < tree->value)
+    else if(value < tree->value)
         tree->left = insert(tree->left,value, nodes);
     else
         tree->right = insert(tree->right,value, nodes);
 
-    tree->height = updateHeight(tree);
     return balance(tree);
 }
 
