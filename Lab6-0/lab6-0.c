@@ -31,8 +31,15 @@ int main() {
         root = insert(root,value, &nodearr[i]);
     }
 
-    printf("%d", getHeight(root)+1);
+    printf("%d\n", getHeight(root)+1);
+    InOrder(root);
+    int value;
+    if(!fscanf(file, "%d", &value)){
+        fclose(file);
+        return 0;
+    }
 
+    Search(root,value);
     fclose(file);
     free(nodearr);
 }
