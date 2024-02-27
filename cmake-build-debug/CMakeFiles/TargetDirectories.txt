@@ -1,3 +1,4 @@
-C:/Programming/NSU_LEARNING/cmake-build-debug/CMakeFiles/NSU_LEARNING.dir
+C:/Programming/NSU_LEARNING/cmake-build-debug/CMakeFiles/Lab6-0.dir
+C:/Programming/NSU_LEARNING/cmake-build-debug/CMakeFiles/Lab9.dir
 C:/Programming/NSU_LEARNING/cmake-build-debug/CMakeFiles/edit_cache.dir
 C:/Programming/NSU_LEARNING/cmake-build-debug/CMakeFiles/rebuild_cache.dir
