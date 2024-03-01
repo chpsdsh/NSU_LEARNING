@@ -1,21 +1,21 @@
 #include <malloc.h>
 #include <stdio.h>
 
-void errorCheck(int N,int S,int F,int M){
-    if (N < 0 || N > 5000){
+void errorCheck(short int NodeCnt,short int Start,short int Finish,int EdgeCnt){
+    if (NodeCnt < 0 || NodeCnt > 5000){
         puts("bad number of vertices");
         exit(0);
     }
-    if (M < 0 || M > N*(N+1)/2){
+    if (EdgeCnt < 0 || EdgeCnt > NodeCnt*(NodeCnt+1)/2){
         puts("bad number of edge");
         exit(0);
     }
-    if (S < 0 || S > N || F < 0 || F > N ){
+    if (Start < 0 || Start > NodeCnt || Finish < 0 || Finish > NodeCnt ){
         puts("bad vertex");
         exit(0);
     }
-    if (N < 0 || N > 5000){
-        puts("bad number of vertices");
+    if (NodeCnt < 0 || NodeCnt > INT_MAX){
+        puts("bad length");
         exit(0);
     }
 }
@@ -23,16 +23,16 @@ void errorCheck(int N,int S,int F,int M){
 int main() {
     FILE *file = fopen("in.txt", "r");
 
-    int N,S,F,M;
-    if(!fscanf(file, "%d", &N)){
+    int NodeCnt,Start,Finish,EdgeCnt;
+    if(!fscanf(file, "%d", &NodeCnt)){
         fclose(file);
         return 0;
     }
-    if(fscanf(file, "%d %d", &S,&F)!=2){
+    if(fscanf(file, "%d %d", &Start,&Finish)!=2){
         fclose(file);
         return 0;
     }
-    if(!fscanf(file, "%d", &M)){
+    if(!fscanf(file, "%d", &EdgeCnt)){
         fclose(file);
         return 0;
     }
