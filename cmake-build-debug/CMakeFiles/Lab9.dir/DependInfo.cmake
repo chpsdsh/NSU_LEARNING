@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "C:/Programming/NSU_LEARNING/Lab9/dijkstra.c" "CMakeFiles/Lab9.dir/Lab9/dijkstra.c.obj" "gcc" "CMakeFiles/Lab9.dir/Lab9/dijkstra.c.obj.d"
   "C:/Programming/NSU_LEARNING/Lab9/graph.c" "CMakeFiles/Lab9.dir/Lab9/graph.c.obj" "gcc" "CMakeFiles/Lab9.dir/Lab9/graph.c.obj.d"
   "C:/Programming/NSU_LEARNING/Lab9/main.c" "CMakeFiles/Lab9.dir/Lab9/main.c.obj" "gcc" "CMakeFiles/Lab9.dir/Lab9/main.c.obj.d"
   )

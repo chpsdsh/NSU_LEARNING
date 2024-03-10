@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Lab9.dir/Lab9/dijkstra.c.obj"
+  "CMakeFiles/Lab9.dir/Lab9/dijkstra.c.obj.d"
   "CMakeFiles/Lab9.dir/Lab9/graph.c.obj"
   "CMakeFiles/Lab9.dir/Lab9/graph.c.obj.d"
   "CMakeFiles/Lab9.dir/Lab9/main.c.obj"
