@@ -10,4 +10,7 @@ add_executable(Lab6-0
 add_executable(Lab9
         Lab9/main.c
         Lab9/graph.c
-        Lab9/graph.h)
+        Lab9/graph.h
+        Lab9/dijkstra.c
+        Lab9/dijkstra.h
+)
