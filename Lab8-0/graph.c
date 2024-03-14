@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "graph.h"
-
+#include <limits.h>
 GRAPH *create(GRAPH*graph, int edgeCnt) {
     graph = malloc(sizeof(GRAPH));
     if (graph == NULL) {
@@ -71,6 +71,8 @@ GRAPH *fill_graph(GRAPH *graph) {
     fclose(file);
     return graph;
 }
+
+
 void destroyGraph(GRAPH *graph){
     free(graph->weights);
     free(graph);

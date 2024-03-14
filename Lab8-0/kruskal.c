@@ -1,4 +1,3 @@
-#include <limits.h>
 #include "kruskal.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,6 +13,7 @@ KRUSKAL *createK(KRUSKAL *kruskal, int nodeCnt) {
     kruskal->node = malloc(nodeCnt * sizeof(int));
     kruskal->rank = malloc(nodeCnt * sizeof(int));
     if (kruskal->parent == NULL || kruskal->node == NULL || kruskal->rank == NULL) {
+        free(kruskal);
         exit(EXIT_FAILURE);
     }
     for (int i = 0; i < nodeCnt; ++i) {
@@ -25,7 +25,18 @@ KRUSKAL *createK(KRUSKAL *kruskal, int nodeCnt) {
 }
 
 
+static int compare(const void *a, const void *b){
+    const int *edge_a = a;
+    const int *edge_b = b;
+    return edge_a[2] - edge_b[2];
+}
 
+
+int findParent(int *parent, int i){
+    if(parent[i] == i)
+        return i;
+    return parent[i] = findParent(parent, parent[i]);
+}
 
 
 void kruskal(GRAPH *graph) {
@@ -33,48 +44,46 @@ void kruskal(GRAPH *graph) {
 
     KRUSKAL *kruskal = NULL;
     kruskal = createK(kruskal, nodeCnt);
-
-
-
-    printResults(kruskal, graph);
+    qsort(graph->weights, edgeCnt, sizeof(int) * 3, compare);
+    for (int i = 0; i < edgeCnt; ++i) {
+        int start = graph->weights[i * 3];
+        int finish = graph->weights[i * 3 + 1];
+        int fromSet = findParent(kruskal->parent, start);
+        int toSet = findParent(kruskal->parent, finish);
+        if (fromSet != toSet) {
+            kruskal->node[start - 1] = 1;
+            kruskal->node[finish - 1] = 1;
+            if (kruskal->rank[fromSet] < kruskal->rank[toSet]) {
+                int tmp = fromSet;
+                fromSet = toSet;
+                toSet = tmp;
+            }
+            kruskal->parent[toSet] = fromSet;
+            if (kruskal->rank[fromSet] == kruskal->rank[toSet])
+                ++(kruskal->rank)[fromSet];
+        } else
+            graph->weights[i * 3 + 2] = -1;
+    }
+    for (int i = 0; i < nodeCnt; ++i)
+        if (!kruskal->node[i]) {
+            destroyKruskal(kruskal);
+            printf("no spanning tree");
+            exit(0);
+        }
+    printResults(graph);
 
     destroyKruskal(kruskal);
 }
 
 
-/*void printResults(KRUSKAL *kruskal, GRAPH *graph){
-    int nodeCnt = graph->nodeCnt, start = graph->start, finish = graph->finish;
-    for(int i = 0; i < nodeCnt; ++i){
-        if(kruskal->visited[i]){
-            if(kruskal->dist[i] > INT_MAX)
-                printf("INT_MAX+ ");
-            else
-                printf("%lld ", kruskal->dist[i]);
-        }
-        else
-            printf("oo ");
-    }
-    printf("\n");
+void printResults(GRAPH *graph) {
+    int edgeCnt = graph->edgeCnt;
 
-    if(!kruskal->visited[finish - 1]){
-        printf("no path \n");
-        return;
-    }
-    int cntIntMax = 0;
-    for (int i = 0; i < nodeCnt; ++i) {
-        if (kruskal->dist[i]>= INT_MAX && kruskal->dist[i]!= LLONG_MAX)
-            cntIntMax++;
-    }
-    if(cntIntMax > 2 && kruskal->dist[finish-1]>INT_MAX ){
-        printf("overflow\n");
-        return;
-    }
-
-    for (int i = finish - 1; i != start - 1; i = kruskal->way[i])
-        printf("%d ", i + 1);
-    printf("%d\n", start);
+    for (int i = 0; i < edgeCnt; ++i)
+        if (graph->weights[i * 3 + 2] != -1)
+            printf("%d %d \n", graph->weights[i * 3], graph->weights[i * 3 + 1]);
 }
-*/
+
 void destroyKruskal(KRUSKAL *kruskal){
     free(kruskal->node);
     free(kruskal->parent);
