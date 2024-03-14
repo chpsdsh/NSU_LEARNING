@@ -14,3 +14,10 @@ add_executable(Lab9
         Lab9/dijkstra.c
         Lab9/dijkstra.h
 )
+add_executable(Lab8-0
+        Lab8-0/main.c
+        Lab8-0/graph.c
+        Lab8-0/graph.h
+        Lab8-0/kruskal.c
+        Lab8-0/kruskal.h
+)
