@@ -5,7 +5,7 @@
 
 typedef struct kruskul{
     int *parent;
-    int *node;
+    int *visited;
     int *rank;
 }KRUSKAL;
 
@@ -15,4 +15,4 @@ int findParent(int *parent, int i);
 static int compare(const void *a, const void *b);
 void printResults(GRAPH *graph);
 void destroyKruskal(KRUSKAL *kruskal);
-#endif //NSU_LEARNING_DKRUSKAL_H
+#endif //NSU_LEARNING_KRUSKAL_H
