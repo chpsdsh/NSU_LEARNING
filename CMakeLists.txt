@@ -21,3 +21,5 @@ add_executable(Lab8-0
         Lab8-0/kruskal.c
         Lab8-0/kruskal.h
 )
+add_executable(Lab8-1
+        Lab8-1/main.c)
