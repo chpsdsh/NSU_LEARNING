@@ -22,7 +22,6 @@ KRUSKAL *createK(KRUSKAL *kruskal, int nodeCnt) {
         kruskal->parent[i] = i;
     }
 
-    kruskal->visited[0] = 0;
     return kruskal;
 }
 
