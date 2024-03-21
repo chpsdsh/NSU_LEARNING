@@ -112,7 +112,7 @@ CMakeFiles/Lab6-0.dir/clean:
 CMakeFiles/Lab9.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab9.dir\build.make CMakeFiles/Lab9.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab9.dir\build.make CMakeFiles/Lab9.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Programming\NSU_LEARNING\cmake-build-debug\CMakeFiles --progress-num=9,10,11,12 "Built target Lab9"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Programming\NSU_LEARNING\cmake-build-debug\CMakeFiles --progress-num=11,12,13,14 "Built target Lab9"
 .PHONY : CMakeFiles/Lab9.dir/all
 
 # Build rule for subdir invocation for target.
@@ -164,12 +164,12 @@ CMakeFiles/Lab8-0.dir/clean:
 CMakeFiles/Lab8-1.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab8-1.dir\build.make CMakeFiles/Lab8-1.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab8-1.dir\build.make CMakeFiles/Lab8-1.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Programming\NSU_LEARNING\cmake-build-debug\CMakeFiles --progress-num=7,8 "Built target Lab8-1"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Programming\NSU_LEARNING\cmake-build-debug\CMakeFiles --progress-num=7,8,9,10 "Built target Lab8-1"
 .PHONY : CMakeFiles/Lab8-1.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Lab8-1.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Programming\NSU_LEARNING\cmake-build-debug\CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Programming\NSU_LEARNING\cmake-build-debug\CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Lab8-1.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Programming\NSU_LEARNING\cmake-build-debug\CMakeFiles 0
 .PHONY : CMakeFiles/Lab8-1.dir/rule

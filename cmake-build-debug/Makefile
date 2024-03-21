@@ -263,6 +263,30 @@ Lab8-0/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab8-0.dir\build.make CMakeFiles/Lab8-0.dir/Lab8-0/main.c.s
 .PHONY : Lab8-0/main.c.s
 
+Lab8-1/graph.obj: Lab8-1/graph.c.obj
+.PHONY : Lab8-1/graph.obj
+
+# target to build an object file
+Lab8-1/graph.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab8-1.dir\build.make CMakeFiles/Lab8-1.dir/Lab8-1/graph.c.obj
+.PHONY : Lab8-1/graph.c.obj
+
+Lab8-1/graph.i: Lab8-1/graph.c.i
+.PHONY : Lab8-1/graph.i
+
+# target to preprocess a source file
+Lab8-1/graph.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab8-1.dir\build.make CMakeFiles/Lab8-1.dir/Lab8-1/graph.c.i
+.PHONY : Lab8-1/graph.c.i
+
+Lab8-1/graph.s: Lab8-1/graph.c.s
+.PHONY : Lab8-1/graph.s
+
+# target to generate assembly for a file
+Lab8-1/graph.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab8-1.dir\build.make CMakeFiles/Lab8-1.dir/Lab8-1/graph.c.s
+.PHONY : Lab8-1/graph.c.s
+
 Lab8-1/main.obj: Lab8-1/main.c.obj
 .PHONY : Lab8-1/main.obj
 
@@ -286,6 +310,30 @@ Lab8-1/main.s: Lab8-1/main.c.s
 Lab8-1/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab8-1.dir\build.make CMakeFiles/Lab8-1.dir/Lab8-1/main.c.s
 .PHONY : Lab8-1/main.c.s
+
+Lab8-1/prim.obj: Lab8-1/prim.c.obj
+.PHONY : Lab8-1/prim.obj
+
+# target to build an object file
+Lab8-1/prim.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab8-1.dir\build.make CMakeFiles/Lab8-1.dir/Lab8-1/prim.c.obj
+.PHONY : Lab8-1/prim.c.obj
+
+Lab8-1/prim.i: Lab8-1/prim.c.i
+.PHONY : Lab8-1/prim.i
+
+# target to preprocess a source file
+Lab8-1/prim.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab8-1.dir\build.make CMakeFiles/Lab8-1.dir/Lab8-1/prim.c.i
+.PHONY : Lab8-1/prim.c.i
+
+Lab8-1/prim.s: Lab8-1/prim.c.s
+.PHONY : Lab8-1/prim.s
+
+# target to generate assembly for a file
+Lab8-1/prim.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab8-1.dir\build.make CMakeFiles/Lab8-1.dir/Lab8-1/prim.c.s
+.PHONY : Lab8-1/prim.c.s
 
 Lab9/dijkstra.obj: Lab9/dijkstra.c.obj
 .PHONY : Lab9/dijkstra.obj
@@ -383,9 +431,15 @@ help:
 	@echo ... Lab8-0/main.obj
 	@echo ... Lab8-0/main.i
 	@echo ... Lab8-0/main.s
+	@echo ... Lab8-1/graph.obj
+	@echo ... Lab8-1/graph.i
+	@echo ... Lab8-1/graph.s
 	@echo ... Lab8-1/main.obj
 	@echo ... Lab8-1/main.i
 	@echo ... Lab8-1/main.s
+	@echo ... Lab8-1/prim.obj
+	@echo ... Lab8-1/prim.i
+	@echo ... Lab8-1/prim.s
 	@echo ... Lab9/dijkstra.obj
 	@echo ... Lab9/dijkstra.i
 	@echo ... Lab9/dijkstra.s

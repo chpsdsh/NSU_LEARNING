@@ -1,5 +1,5 @@
-CMakeFiles/Lab8-1.dir/Lab8-1/main.c.obj: \
- C:\Programming\NSU_LEARNING\Lab8-1\main.c \
+CMakeFiles/Lab8-1.dir/Lab8-1/graph.c.obj: \
+ C:\Programming\NSU_LEARNING\Lab8-1\graph.c \
  C:/Program\ Files/JetBrains/CLion\ 2023.2.1/bin/mingw/x86_64-w64-mingw32/include/stdlib.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2.1/bin/mingw/x86_64-w64-mingw32/include/corecrt.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2.1/bin/mingw/x86_64-w64-mingw32/include/_mingw.h \
@@ -16,5 +16,9 @@ CMakeFiles/Lab8-1.dir/Lab8-1/main.c.obj: \
  C:/Program\ Files/JetBrains/CLion\ 2023.2.1/bin/mingw/x86_64-w64-mingw32/include/malloc.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2.1/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2.1/bin/mingw/x86_64-w64-mingw32/include/errno.h \
- C:\Programming\NSU_LEARNING\Lab8-1\graph.h \
- C:\Programming\NSU_LEARNING\Lab8-1\prim.h
+ C:/Program\ Files/JetBrains/CLion\ 2023.2.1/bin/mingw/x86_64-w64-mingw32/include/stdio.h \
+ C:/Program\ Files/JetBrains/CLion\ 2023.2.1/bin/mingw/x86_64-w64-mingw32/include/corecrt_stdio_config.h \
+ C:/Program\ Files/JetBrains/CLion\ 2023.2.1/bin/mingw/x86_64-w64-mingw32/include/_mingw_off_t.h \
+ C:/Program\ Files/JetBrains/CLion\ 2023.2.1/bin/mingw/x86_64-w64-mingw32/include/swprintf.inl \
+ C:/Program\ Files/JetBrains/CLion\ 2023.2.1/bin/mingw/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
+ C:\Programming\NSU_LEARNING\Lab8-1\graph.h

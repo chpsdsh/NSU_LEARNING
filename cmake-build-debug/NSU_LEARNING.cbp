@@ -211,7 +211,19 @@
 		<Unit filename="C:/Programming/NSU_LEARNING/Lab8-0/main.c">
 			<Option target="Lab8-0"/>
 		</Unit>
+		<Unit filename="C:/Programming/NSU_LEARNING/Lab8-1/graph.c">
+			<Option target="Lab8-1"/>
+		</Unit>
+		<Unit filename="C:/Programming/NSU_LEARNING/Lab8-1/graph.h">
+			<Option target="Lab8-1"/>
+		</Unit>
 		<Unit filename="C:/Programming/NSU_LEARNING/Lab8-1/main.c">
+			<Option target="Lab8-1"/>
+		</Unit>
+		<Unit filename="C:/Programming/NSU_LEARNING/Lab8-1/prim.c">
+			<Option target="Lab8-1"/>
+		</Unit>
+		<Unit filename="C:/Programming/NSU_LEARNING/Lab8-1/prim.h">
 			<Option target="Lab8-1"/>
 		</Unit>
 		<Unit filename="C:/Programming/NSU_LEARNING/Lab9/dijkstra.c">

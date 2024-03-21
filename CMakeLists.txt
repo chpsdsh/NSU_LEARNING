@@ -22,4 +22,9 @@ add_executable(Lab8-0
         Lab8-0/kruskal.h
 )
 add_executable(Lab8-1
-        Lab8-1/main.c)
+        Lab8-1/main.c
+        Lab8-1/graph.c
+        Lab8-1/graph.h
+        Lab8-1/prim.c
+        Lab8-1/prim.h
+)
