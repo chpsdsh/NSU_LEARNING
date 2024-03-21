@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/new_target.dir/Lab8-1/main.c.obj"
-  "CMakeFiles/new_target.dir/Lab8-1/main.c.obj.d"
+  "CMakeFiles/new_target.dir/Lab7/main.c.obj"
+  "CMakeFiles/new_target.dir/Lab7/main.c.obj.d"
   "libnew_target.dll.a"
   "new_target.exe"
   "new_target.exe.manifest"

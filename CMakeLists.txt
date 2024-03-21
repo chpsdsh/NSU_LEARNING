@@ -28,3 +28,6 @@ add_executable(Lab8-1
         Lab8-1/prim.c
         Lab8-1/prim.h
 )
+add_executable(Lab7
+        Lab7/main.c
+)
