@@ -4,7 +4,7 @@
 typedef struct graph {
     int nodeCnt;
     int edgeCnt;
-    int *weights;
+    char *matrix;
 } GRAPH;
 
 GRAPH *create(int nodeCnt) {
@@ -12,15 +12,15 @@ GRAPH *create(int nodeCnt) {
     if (graph == NULL)
         exit(EXIT_SUCCESS);
 
-    graph->weights = malloc(nodeCnt * nodeCnt * sizeof(int));
+    graph->matrix = malloc(nodeCnt * nodeCnt * sizeof(char));
 
-    if (graph->weights == NULL) {
+    if (graph->matrix == NULL) {
         free(graph);
         exit(EXIT_SUCCESS);
     }
 
     for (int i = 0; i < nodeCnt * nodeCnt; i++)
-        graph->weights[i] = 0;
+        graph->matrix[i] = 0;
 
     return graph;
 }
@@ -68,7 +68,7 @@ GRAPH *fill_graph() {
             exit(EXIT_SUCCESS);
         }
 
-        graph->weights[nodeCnt * (start - 1) + (finish - 1)] = 1;
+        graph->matrix[nodeCnt * (start - 1) + (finish - 1)] = 1;
     }
 
     fclose(file);
@@ -90,7 +90,7 @@ void topSort(GRAPH *graph) {
 
     for (int i = 0; i < nodeCnt; ++i)
         for (int j = 0; j < nodeCnt; ++j)
-            if (graph->weights[nodeCnt * i + j] != 0)
+            if (graph->matrix[nodeCnt * i + j] != 0)
                 in_degree[j]++;
 
     int *res = malloc(nodeCnt * sizeof(int));
@@ -103,7 +103,7 @@ void topSort(GRAPH *graph) {
         visited[at] = 1;
         res[index++] = at + 1;
         for (int i = 0; i < nodeCnt; ++i) {
-            if (graph->weights[nodeCnt * at + i]) {
+            if (graph->matrix[nodeCnt * at + i]) {
                 in_degree[i]--;
             }
         }
@@ -125,7 +125,7 @@ void topSort(GRAPH *graph) {
 
 void destroyGraph(GRAPH *graph) {
     if (graph) {
-        free(graph->weights);
+        free(graph->matrix);
     }
     free(graph);
 }
