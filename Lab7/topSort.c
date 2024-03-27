@@ -36,17 +36,18 @@ void topSort(GRAPH *graph) {
                 topsort->inDegree[j]++;
 
     int index = 0;
-    while (1) {
-        int at = noDependencies(topsort, nodeCnt);
-        if (at == -1)
-            break;
-        topsort->visited[at] = 1;
-        topsort->res[index++] = at + 1;
+    int noDepInd = noDependencies(topsort, nodeCnt);
+
+    while (noDepInd != -1) {
+
+        topsort->visited[noDepInd] = 1;
+        topsort->res[index++] = noDepInd + 1;
         for (int i = 0; i < nodeCnt; ++i) {
-            if (graph->matrix[nodeCnt * at + i]) {
+            if (graph->matrix[nodeCnt * noDepInd + i]) {
                 topsort->inDegree[i]--;
             }
         }
+        noDepInd = noDependencies(topsort, nodeCnt);
     }
 
     if (index != nodeCnt) {
