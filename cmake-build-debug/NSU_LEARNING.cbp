@@ -234,7 +234,19 @@
 		<Unit filename="C:/Programming/NSU_LEARNING/Lab6-0/lab6-0.c">
 			<Option target="Lab6-0"/>
 		</Unit>
+		<Unit filename="C:/Programming/NSU_LEARNING/Lab7/graph.c">
+			<Option target="Lab7"/>
+		</Unit>
+		<Unit filename="C:/Programming/NSU_LEARNING/Lab7/graph.h">
+			<Option target="Lab7"/>
+		</Unit>
 		<Unit filename="C:/Programming/NSU_LEARNING/Lab7/main.c">
+			<Option target="Lab7"/>
+		</Unit>
+		<Unit filename="C:/Programming/NSU_LEARNING/Lab7/topSort.c">
+			<Option target="Lab7"/>
+		</Unit>
+		<Unit filename="C:/Programming/NSU_LEARNING/Lab7/topSort.h">
 			<Option target="Lab7"/>
 		</Unit>
 		<Unit filename="C:/Programming/NSU_LEARNING/Lab8-0/graph.c">

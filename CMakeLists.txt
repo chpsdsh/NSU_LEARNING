@@ -30,4 +30,8 @@ add_executable(Lab8-1
 )
 add_executable(Lab7
         Lab7/main.c
+        Lab7/graph.c
+        Lab7/graph.h
+        Lab7/topSort.c
+        Lab7/topSort.h
 )

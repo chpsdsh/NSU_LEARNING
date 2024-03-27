@@ -8,7 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "C:/Programming/NSU_LEARNING/Lab7/graph.c" "CMakeFiles/Lab7.dir/Lab7/graph.c.obj" "gcc" "CMakeFiles/Lab7.dir/Lab7/graph.c.obj.d"
   "C:/Programming/NSU_LEARNING/Lab7/main.c" "CMakeFiles/Lab7.dir/Lab7/main.c.obj" "gcc" "CMakeFiles/Lab7.dir/Lab7/main.c.obj.d"
+  "C:/Programming/NSU_LEARNING/Lab7/topSort.c" "CMakeFiles/Lab7.dir/Lab7/topSort.c.obj" "gcc" "CMakeFiles/Lab7.dir/Lab7/topSort.c.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

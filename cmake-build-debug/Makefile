@@ -204,6 +204,30 @@ Lab6-0/lab6-0.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab6-0.dir\build.make CMakeFiles/Lab6-0.dir/Lab6-0/lab6-0.c.s
 .PHONY : Lab6-0/lab6-0.c.s
 
+Lab7/graph.obj: Lab7/graph.c.obj
+.PHONY : Lab7/graph.obj
+
+# target to build an object file
+Lab7/graph.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab7.dir\build.make CMakeFiles/Lab7.dir/Lab7/graph.c.obj
+.PHONY : Lab7/graph.c.obj
+
+Lab7/graph.i: Lab7/graph.c.i
+.PHONY : Lab7/graph.i
+
+# target to preprocess a source file
+Lab7/graph.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab7.dir\build.make CMakeFiles/Lab7.dir/Lab7/graph.c.i
+.PHONY : Lab7/graph.c.i
+
+Lab7/graph.s: Lab7/graph.c.s
+.PHONY : Lab7/graph.s
+
+# target to generate assembly for a file
+Lab7/graph.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab7.dir\build.make CMakeFiles/Lab7.dir/Lab7/graph.c.s
+.PHONY : Lab7/graph.c.s
+
 Lab7/main.obj: Lab7/main.c.obj
 .PHONY : Lab7/main.obj
 
@@ -227,6 +251,30 @@ Lab7/main.s: Lab7/main.c.s
 Lab7/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab7.dir\build.make CMakeFiles/Lab7.dir/Lab7/main.c.s
 .PHONY : Lab7/main.c.s
+
+Lab7/topSort.obj: Lab7/topSort.c.obj
+.PHONY : Lab7/topSort.obj
+
+# target to build an object file
+Lab7/topSort.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab7.dir\build.make CMakeFiles/Lab7.dir/Lab7/topSort.c.obj
+.PHONY : Lab7/topSort.c.obj
+
+Lab7/topSort.i: Lab7/topSort.c.i
+.PHONY : Lab7/topSort.i
+
+# target to preprocess a source file
+Lab7/topSort.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab7.dir\build.make CMakeFiles/Lab7.dir/Lab7/topSort.c.i
+.PHONY : Lab7/topSort.c.i
+
+Lab7/topSort.s: Lab7/topSort.c.s
+.PHONY : Lab7/topSort.s
+
+# target to generate assembly for a file
+Lab7/topSort.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab7.dir\build.make CMakeFiles/Lab7.dir/Lab7/topSort.c.s
+.PHONY : Lab7/topSort.c.s
 
 Lab8-0/graph.obj: Lab8-0/graph.c.obj
 .PHONY : Lab8-0/graph.obj
@@ -460,9 +508,15 @@ help:
 	@echo ... Lab6-0/lab6-0.obj
 	@echo ... Lab6-0/lab6-0.i
 	@echo ... Lab6-0/lab6-0.s
+	@echo ... Lab7/graph.obj
+	@echo ... Lab7/graph.i
+	@echo ... Lab7/graph.s
 	@echo ... Lab7/main.obj
 	@echo ... Lab7/main.i
 	@echo ... Lab7/main.s
+	@echo ... Lab7/topSort.obj
+	@echo ... Lab7/topSort.i
+	@echo ... Lab7/topSort.s
 	@echo ... Lab8-0/graph.obj
 	@echo ... Lab8-0/graph.i
 	@echo ... Lab8-0/graph.s
