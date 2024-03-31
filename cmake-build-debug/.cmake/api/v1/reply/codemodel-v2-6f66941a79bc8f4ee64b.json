@@ -54,7 +54,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Lab7::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Lab7-Debug-4b6781b913677b145672.json",
+					"jsonFile" : "target-Lab7-Debug-90b8be6ef657c823c657.json",
 					"name" : "Lab7",
 					"projectIndex" : 0
 				},
@@ -68,7 +68,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Lab8-1::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Lab8-1-Debug-bf2c191c00850ccc9b8c.json",
+					"jsonFile" : "target-Lab8-1-Debug-f686c1f54eb941d90aa0.json",
 					"name" : "Lab8-1",
 					"projectIndex" : 0
 				},
@@ -91,6 +91,6 @@
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 5
+		"minor" : 6
 	}
 }

@@ -3,8 +3,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/Lab8-1.dir/Lab8-1/graph.c.obj.d"
   "CMakeFiles/Lab8-1.dir/Lab8-1/main.c.obj"
   "CMakeFiles/Lab8-1.dir/Lab8-1/main.c.obj.d"
-  "CMakeFiles/Lab8-1.dir/Lab8-1/prim.c.obj"
-  "CMakeFiles/Lab8-1.dir/Lab8-1/prim.c.obj.d"
   "Lab8-1.exe"
   "Lab8-1.exe.manifest"
   "Lab8-1.pdb"
