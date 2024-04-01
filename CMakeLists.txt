@@ -31,3 +31,9 @@ add_executable(Lab7
         Lab7/graph.c
         Lab7/graph.h
 )
+add_executable(Kosaraju kosaraju/main.c
+        kosaraju/main.c
+        kosaraju/graph.c
+        kosaraju/graph.h
+        kosaraju/stack.c
+        kosaraju/stack.h)

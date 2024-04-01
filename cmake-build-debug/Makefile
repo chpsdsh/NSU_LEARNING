@@ -180,6 +180,19 @@ Lab7/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab7.dir\build.make CMakeFiles/Lab7.dir/build
 .PHONY : Lab7/fast
 
+#=============================================================================
+# Target rules for targets named Kosaraju
+
+# Build rule for target.
+Kosaraju: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 Kosaraju
+.PHONY : Kosaraju
+
+# fast build rule for target.
+Kosaraju/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/build
+.PHONY : Kosaraju/fast
+
 Lab6-0/lab6-0.obj: Lab6-0/lab6-0.c.obj
 .PHONY : Lab6-0/lab6-0.obj
 
@@ -444,6 +457,78 @@ Lab9/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Lab9.dir\build.make CMakeFiles/Lab9.dir/Lab9/main.c.s
 .PHONY : Lab9/main.c.s
 
+kosaraju/graph.obj: kosaraju/graph.c.obj
+.PHONY : kosaraju/graph.obj
+
+# target to build an object file
+kosaraju/graph.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/graph.c.obj
+.PHONY : kosaraju/graph.c.obj
+
+kosaraju/graph.i: kosaraju/graph.c.i
+.PHONY : kosaraju/graph.i
+
+# target to preprocess a source file
+kosaraju/graph.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/graph.c.i
+.PHONY : kosaraju/graph.c.i
+
+kosaraju/graph.s: kosaraju/graph.c.s
+.PHONY : kosaraju/graph.s
+
+# target to generate assembly for a file
+kosaraju/graph.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/graph.c.s
+.PHONY : kosaraju/graph.c.s
+
+kosaraju/main.obj: kosaraju/main.c.obj
+.PHONY : kosaraju/main.obj
+
+# target to build an object file
+kosaraju/main.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/main.c.obj
+.PHONY : kosaraju/main.c.obj
+
+kosaraju/main.i: kosaraju/main.c.i
+.PHONY : kosaraju/main.i
+
+# target to preprocess a source file
+kosaraju/main.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/main.c.i
+.PHONY : kosaraju/main.c.i
+
+kosaraju/main.s: kosaraju/main.c.s
+.PHONY : kosaraju/main.s
+
+# target to generate assembly for a file
+kosaraju/main.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/main.c.s
+.PHONY : kosaraju/main.c.s
+
+kosaraju/stack.obj: kosaraju/stack.c.obj
+.PHONY : kosaraju/stack.obj
+
+# target to build an object file
+kosaraju/stack.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/stack.c.obj
+.PHONY : kosaraju/stack.c.obj
+
+kosaraju/stack.i: kosaraju/stack.c.i
+.PHONY : kosaraju/stack.i
+
+# target to preprocess a source file
+kosaraju/stack.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/stack.c.i
+.PHONY : kosaraju/stack.c.i
+
+kosaraju/stack.s: kosaraju/stack.c.s
+.PHONY : kosaraju/stack.s
+
+# target to generate assembly for a file
+kosaraju/stack.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/stack.c.s
+.PHONY : kosaraju/stack.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -452,6 +537,7 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... Kosaraju
 	@echo ... Lab6-0
 	@echo ... Lab7
 	@echo ... Lab8-0
@@ -490,6 +576,15 @@ help:
 	@echo ... Lab9/main.obj
 	@echo ... Lab9/main.i
 	@echo ... Lab9/main.s
+	@echo ... kosaraju/graph.obj
+	@echo ... kosaraju/graph.i
+	@echo ... kosaraju/graph.s
+	@echo ... kosaraju/main.obj
+	@echo ... kosaraju/main.i
+	@echo ... kosaraju/main.s
+	@echo ... kosaraju/stack.obj
+	@echo ... kosaraju/stack.i
+	@echo ... kosaraju/stack.s
 .PHONY : help
 
 

@@ -3,5 +3,6 @@ C:/Programming/NSU_LEARNING/cmake-build-debug/CMakeFiles/Lab9.dir
 C:/Programming/NSU_LEARNING/cmake-build-debug/CMakeFiles/Lab8-0.dir
 C:/Programming/NSU_LEARNING/cmake-build-debug/CMakeFiles/Lab8-1.dir
 C:/Programming/NSU_LEARNING/cmake-build-debug/CMakeFiles/Lab7.dir
+C:/Programming/NSU_LEARNING/cmake-build-debug/CMakeFiles/Kosaraju.dir
 C:/Programming/NSU_LEARNING/cmake-build-debug/CMakeFiles/edit_cache.dir
 C:/Programming/NSU_LEARNING/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,13 @@
+#ifndef NSU_LEARNING_GRAPH_H
+#define NSU_LEARNING_GRAPH_H
+typedef struct graph {
+    int nodeCnt;
+    int edgeCnt;
+    char *matrix;
+    char *revmatrix;
+    int *visited;
+} GRAPH;
+void destroyGraph(GRAPH *graph);
+GRAPH *fill_graph();
+GRAPH *create(int nodeCnt);
+#endif //NSU_LEARNING_GRAPH_H

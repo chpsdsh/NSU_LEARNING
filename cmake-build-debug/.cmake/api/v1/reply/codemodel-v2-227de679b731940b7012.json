@@ -19,7 +19,8 @@
 						1,
 						2,
 						3,
-						4
+						4,
+						5
 					]
 				}
 			],
@@ -38,12 +39,20 @@
 						1,
 						2,
 						3,
-						4
+						4,
+						5
 					]
 				}
 			],
 			"targets" : 
 			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Kosaraju::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Kosaraju-Debug-0a0938442ce43e465e98.json",
+					"name" : "Kosaraju",
+					"projectIndex" : 0
+				},
 				{
 					"directoryIndex" : 0,
 					"id" : "Lab6-0::@6890427a1f51a3e7e1df",
