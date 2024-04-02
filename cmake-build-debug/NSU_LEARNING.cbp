@@ -329,12 +329,6 @@
 		<Unit filename="C:/Programming/NSU_LEARNING/kosaraju/main.c">
 			<Option target="Kosaraju"/>
 		</Unit>
-		<Unit filename="C:/Programming/NSU_LEARNING/kosaraju/stack.c">
-			<Option target="Kosaraju"/>
-		</Unit>
-		<Unit filename="C:/Programming/NSU_LEARNING/kosaraju/stack.h">
-			<Option target="Kosaraju"/>
-		</Unit>
 		<Unit filename="C:/Programming/NSU_LEARNING/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

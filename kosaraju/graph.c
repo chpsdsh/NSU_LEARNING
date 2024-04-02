@@ -7,17 +7,13 @@ GRAPH *create(int nodeCnt) {
     if (graph == NULL)
         exit(EXIT_SUCCESS);
 
-    graph->matrix = malloc(nodeCnt * nodeCnt * sizeof(char));
-    graph->revmatrix = malloc(nodeCnt * nodeCnt * sizeof(char));
+    graph->matrix = calloc(nodeCnt * nodeCnt , sizeof(char));
+    graph->revmatrix = calloc(nodeCnt * nodeCnt , sizeof(char));
     graph->visited  = calloc(nodeCnt, sizeof(int));
     if (graph->matrix == NULL || graph->revmatrix == NULL || graph->visited == NULL) {
         free(graph);
         exit(EXIT_SUCCESS);
     }
-
-    for (int i = 0; i < nodeCnt * nodeCnt; i++)
-        graph->matrix[i] = 0;
-
     return graph;
 }
 
@@ -63,7 +59,6 @@ GRAPH *fill_graph() {
             fclose(file);
             exit(EXIT_SUCCESS);
         }
-
         graph->matrix[nodeCnt * (start - 1) + (finish - 1)] = 1;
         graph->revmatrix[nodeCnt * (finish - 1) + (start - 1)] = 1;
     }

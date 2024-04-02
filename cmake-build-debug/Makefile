@@ -505,30 +505,6 @@ kosaraju/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/main.c.s
 .PHONY : kosaraju/main.c.s
 
-kosaraju/stack.obj: kosaraju/stack.c.obj
-.PHONY : kosaraju/stack.obj
-
-# target to build an object file
-kosaraju/stack.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/stack.c.obj
-.PHONY : kosaraju/stack.c.obj
-
-kosaraju/stack.i: kosaraju/stack.c.i
-.PHONY : kosaraju/stack.i
-
-# target to preprocess a source file
-kosaraju/stack.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/stack.c.i
-.PHONY : kosaraju/stack.c.i
-
-kosaraju/stack.s: kosaraju/stack.c.s
-.PHONY : kosaraju/stack.s
-
-# target to generate assembly for a file
-kosaraju/stack.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Kosaraju.dir\build.make CMakeFiles/Kosaraju.dir/kosaraju/stack.c.s
-.PHONY : kosaraju/stack.c.s
-
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -582,9 +558,6 @@ help:
 	@echo ... kosaraju/main.obj
 	@echo ... kosaraju/main.i
 	@echo ... kosaraju/main.s
-	@echo ... kosaraju/stack.obj
-	@echo ... kosaraju/stack.i
-	@echo ... kosaraju/stack.s
 .PHONY : help
 
 
