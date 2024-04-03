@@ -21,11 +21,9 @@ void dfs1(GRAPH* graph, int index,  STACK *stack) {
 
 void dfs2(GRAPH* graph, int node, int colour) {
     graph->visited[node] = colour;
-    for (int i = 0; i < graph->nodeCnt; ++i) {
-        if (graph->revmatrix[node * graph->nodeCnt + i] && !graph->visited[i]) {
+    for (int i = 0; i < graph->nodeCnt; ++i)
+        if (graph->revmatrix[node * graph->nodeCnt + i] && !graph->visited[i])
             dfs2(graph, i, colour);
-        }
-    }
 }
 
 void printResults(GRAPH *graph){
