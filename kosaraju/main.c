@@ -1,45 +1,14 @@
 #include "graph.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "stack.h"
 
-typedef struct stack{
-    int value;
-    struct stack *next;
-}STACK;
 
-STACK* createS() {
-    STACK *Telem = (STACK*)malloc(sizeof(STACK));
-    Telem->next = NULL;
-    return Telem;
-}
-
-void push(STACK *S, int value) {
-    STACK *elem = (STACK*)malloc(sizeof(STACK));
-    elem->value = value;
-    elem->next = S->next;
-    S->next = elem;
-}
-
-int empty(STACK *S) {
-    return S->next == NULL;
-}
-
-int pop(STACK *S) {
-    if (empty(S))
-        return -1;
-    STACK *first = S->next;
-    int val = first->value;
-    S->next = first->next;
-    free(first);
-    return val;
-}
-
-void print(STACK *S){//prints stack
-    STACK *ptr = S-> next;
-    while (ptr != NULL){
-        printf("%d ",ptr->value);
-        ptr = ptr->next;
-    }
+int max(int *array, int length){
+    int max = -INT_MAX;
+    for(int i = 0; i < length; i++)
+        max = max < array[i] ? array[i] : max;
+    return max;
 }
 
 void dfs1(GRAPH* graph, int index,  STACK *stack) {
@@ -59,13 +28,6 @@ void dfs2(GRAPH* graph, int node, int colour) {
     }
 }
 
-int max(int *array, int length){
-    int max = -9999;
-    for(int i = 0; i < length; i++)
-        max = max < array[i] ? array[i] : max;
-    return max;
-}
-
 void printResults(GRAPH *graph){
     int maxComp = max(graph->visited, graph->nodeCnt);
     for (int i = 1; i < maxComp+1; i++) {
@@ -75,6 +37,7 @@ void printResults(GRAPH *graph){
                 printf("%d ", j+1);
         puts("");
     }
+    destroyGraph(graph);
 }
 
 void kosaraju(GRAPH *graph){
@@ -89,16 +52,13 @@ void kosaraju(GRAPH *graph){
     for(int i = 0; i < graph->nodeCnt; i++)
         graph->visited[i] = 0;
 
-    while(!empty(stack)){
+    while(!isEmpty(stack)){
         node = pop(stack);
-        if(!graph->visited[node]){
-
+        if(!graph->visited[node])
             dfs2(graph, node, ++colour);
-        }
     }
 
     printResults(graph);
-
     free(stack);
 }
 

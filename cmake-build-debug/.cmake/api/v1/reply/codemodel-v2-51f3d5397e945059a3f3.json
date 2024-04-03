@@ -49,7 +49,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Kosaraju::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Kosaraju-Debug-69817a74d1fb4b518961.json",
+					"jsonFile" : "target-Kosaraju-Debug-0a0938442ce43e465e98.json",
 					"name" : "Kosaraju",
 					"projectIndex" : 0
 				},
@@ -100,6 +100,6 @@
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 6
+		"minor" : 5
 	}
 }

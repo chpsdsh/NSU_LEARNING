@@ -35,4 +35,6 @@ add_executable(Kosaraju kosaraju/main.c
         kosaraju/main.c
         kosaraju/graph.c
         kosaraju/graph.h
+        kosaraju/stack.c
+        kosaraju/stack.h
 )

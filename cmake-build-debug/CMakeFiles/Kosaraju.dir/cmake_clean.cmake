@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Kosaraju.dir/kosaraju/graph.c.obj.d"
   "CMakeFiles/Kosaraju.dir/kosaraju/main.c.obj"
   "CMakeFiles/Kosaraju.dir/kosaraju/main.c.obj.d"
+  "CMakeFiles/Kosaraju.dir/kosaraju/stack.c.obj"
+  "CMakeFiles/Kosaraju.dir/kosaraju/stack.c.obj.d"
   "Kosaraju.exe"
   "Kosaraju.exe.manifest"
   "Kosaraju.pdb"

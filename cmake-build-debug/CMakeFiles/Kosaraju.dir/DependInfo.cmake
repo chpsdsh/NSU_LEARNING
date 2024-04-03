@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Programming/NSU_LEARNING/kosaraju/graph.c" "CMakeFiles/Kosaraju.dir/kosaraju/graph.c.obj" "gcc" "CMakeFiles/Kosaraju.dir/kosaraju/graph.c.obj.d"
   "C:/Programming/NSU_LEARNING/kosaraju/main.c" "CMakeFiles/Kosaraju.dir/kosaraju/main.c.obj" "gcc" "CMakeFiles/Kosaraju.dir/kosaraju/main.c.obj.d"
+  "C:/Programming/NSU_LEARNING/kosaraju/stack.c" "CMakeFiles/Kosaraju.dir/kosaraju/stack.c.obj" "gcc" "CMakeFiles/Kosaraju.dir/kosaraju/stack.c.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -30,17 +30,6 @@ GRAPH *fill_graph() {
         exit(EXIT_SUCCESS);
     }
 
-    if (nodeCnt < 0 || nodeCnt > 2000) {
-        puts("bad number of vertices");
-        fclose(file);
-        exit(EXIT_SUCCESS);
-    }
-    if (edgeCnt < 0 || edgeCnt > nodeCnt * (nodeCnt + 1) / 2) {
-        puts("bad number of edges");
-        fclose(file);
-        exit(EXIT_SUCCESS);
-    }
-
     GRAPH *graph = create(nodeCnt);
     graph->nodeCnt = nodeCnt;
     graph->edgeCnt = edgeCnt;
@@ -70,6 +59,7 @@ GRAPH *fill_graph() {
 void destroyGraph(GRAPH *graph) {
     if (graph) {
         free(graph->matrix);
+        free(graph->revmatrix);
     }
     free(graph);
 }
