@@ -31,19 +31,22 @@ NODE *createN(wchar_t symbol, int freq) {
     return node;
 }
 
-void resize(PRIORITY_QUEUE *queue, int size) {
+/*void resize(PRIORITY_QUEUE *queue, int size) {
     queue->heap = realloc(queue->heap, size * sizeof(NODE *));
     queue->size = size;
-}
+}*/
 
 void enqueue(PRIORITY_QUEUE *queue, NODE *node) {
     queue->heap = realloc(queue->heap, (++queue->size) * sizeof(NODE *));
     int index = queue->size - 1;
-    while (index > 0 && queue->heap[(index - 1) / 2]->freq <= node->freq) {
-        queue->heap[index] = queue->heap[(index - 1) / 2];
-        index = (index - 1) / 2;
-    }
     queue->heap[index] = node;
+    while (index > 0 && queue->heap[index]->freq >= queue->heap[index-1]->freq) {
+        NODE* temp = queue->heap[index];
+        queue->heap[index] = queue->heap[index-1];
+        queue->heap[index - 1] = temp;
+        index--;
+    }
+
 }
 
 int main() {
@@ -58,11 +61,11 @@ int main() {
         for (int i = 0; i < queue->size; i++) {
             if (queue->heap[i]->symbol == symbol) {
                 queue->heap[i]->freq++;
-                while (i > 0 && queue->heap[i]->freq >= queue->heap[(i - 1) / 2]->freq) {
+                while (i > 0 && queue->heap[i]->freq >= queue->heap[i - 1]->freq) {
                     NODE* temp = queue->heap[i];
-                    queue->heap[i] = queue->heap[(i - 1) / 2];
-                    queue->heap[(i - 1) / 2] = temp;
-                    i = (i - 1) / 2;
+                    queue->heap[i] = queue->heap[i - 1];
+                    queue->heap[i - 1] = temp;
+                    i--;
                 }
                 inQueue = 1;
                 break;
