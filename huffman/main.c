@@ -4,8 +4,8 @@
 #include <locale.h>
 
 typedef struct node {
-    wchar_t symbol;
-    int freq;
+    unsigned long symbol;
+    long int freq;
     struct node *left;
     struct node *right;
 } NODE;
@@ -14,6 +14,26 @@ typedef struct pqueue {
     int size;
     struct node **heap;
 } PRIORITY_QUEUE;
+
+typedef struct huffmanCode {
+    int len;
+    int code;
+} HUFFMANCODE;
+
+typedef struct BitStream {
+    FILE *file;
+    unsigned long data;
+    int pos;
+} BITSTREAM;
+
+
+BITSTREAM *createBitStream(FILE *file) {
+    BITSTREAM *stream = malloc(sizeof(BITSTREAM));
+    stream->file = file;
+    stream->data = 0;
+    stream->pos = 0;
+}
+
 
 PRIORITY_QUEUE *createQ() {
     PRIORITY_QUEUE *queue = malloc(sizeof(PRIORITY_QUEUE));
@@ -30,6 +50,7 @@ NODE *createN(wchar_t symbol, int freq) {
     node->right = NULL;
     return node;
 }
+
 
 void resize(PRIORITY_QUEUE *queue, int size) {
     queue->heap = realloc(queue->heap, size * sizeof(NODE *));
@@ -102,6 +123,29 @@ NODE *createTree(PRIORITY_QUEUE *queue) {
         sortQueue(queue, index);
     }
     return queue->heap[0];
+}
+
+int lastLeaf(NODE *root) {
+    if (root->left == NULL)
+        return 1;
+    return 0;
+}
+
+void GetCocks(NODE *root, HUFFMANCODE *codes, unsigned int code, int len, int index) {
+    if (lastLeaf(root)) {
+        codes[index].len = len;
+        codes[index++].code = code;
+    }
+    GetCocks(root->left, codes, code << 1, len + 1, index);
+    GetCocks(root->right, codes, (code << 1) | 1, len + 1, index);
+}
+
+void encode(FILE *input, FILE *output) {
+    PRIORITY_QUEUE *queue = initQueue(input, output);
+    HUFFMANCODE *codes = malloc(queue->size * sizeof(HUFFMANCODE *));
+    BITSTREAM *stream = createBitStream(output);
+
+
 }
 
 int main() {
