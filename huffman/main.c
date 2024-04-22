@@ -31,29 +31,25 @@ NODE *createN(wchar_t symbol, int freq) {
     return node;
 }
 
-/*void resize(PRIORITY_QUEUE *queue, int size) {
+void resize(PRIORITY_QUEUE *queue, int size) {
     queue->heap = realloc(queue->heap, size * sizeof(NODE *));
     queue->size = size;
-}*/
+}
 
 void enqueue(PRIORITY_QUEUE *queue, NODE *node) {
-    queue->heap = realloc(queue->heap, (++queue->size) * sizeof(NODE *));
+    resize(queue, queue->size + 1);
     int index = queue->size - 1;
     queue->heap[index] = node;
-    while (index > 0 && queue->heap[index]->freq >= queue->heap[index-1]->freq) {
-        NODE* temp = queue->heap[index];
-        queue->heap[index] = queue->heap[index-1];
+    while (index > 0 && queue->heap[index]->freq >= queue->heap[index - 1]->freq) {
+        NODE *temp = queue->heap[index];
+        queue->heap[index] = queue->heap[index - 1];
         queue->heap[index - 1] = temp;
         index--;
     }
 
 }
 
-int main() {
-    setlocale(LC_ALL, "");
-
-    FILE *input = fopen("in.txt", "r, ccs=UTF-8");
-    FILE *output = fopen("out.txt", "w, ccs=UTF-8");
+PRIORITY_QUEUE *initQueue(FILE *input, FILE *output) {
     wint_t symbol;
     PRIORITY_QUEUE *queue = createQ();
     while ((symbol = fgetwc(input)) != WEOF) {
@@ -61,8 +57,8 @@ int main() {
         for (int i = 0; i < queue->size; i++) {
             if (queue->heap[i]->symbol == symbol) {
                 queue->heap[i]->freq++;
-                while (i > 0 && queue->heap[i]->freq >= queue->heap[i - 1]->freq) {
-                    NODE* temp = queue->heap[i];
+                while (i > 0 && queue->heap[i]->freq > queue->heap[i - 1]->freq) {
+                    NODE *temp = queue->heap[i];
                     queue->heap[i] = queue->heap[i - 1];
                     queue->heap[i - 1] = temp;
                     i--;
@@ -76,11 +72,45 @@ int main() {
         }
     }
 
-    fclose(input);
+
     for (int i = 0; i < queue->size; i++) {
         fwprintf(output, L"%d %lc\n", queue->heap[i]->freq, queue->heap[i]->symbol);
 
     }
+    return queue;
+}
+
+void sortQueue(PRIORITY_QUEUE *queue, int index) {
+    while (index > 0 && queue->heap[index]->freq > queue->heap[index - 1]->freq) {
+        NODE *temp = queue->heap[index];
+        queue->heap[index] = queue->heap[index - 1];
+        queue->heap[index - 1] = temp;
+        index--;
+    }
+}
+
+NODE *createTree(PRIORITY_QUEUE *queue) {
+    int index = queue->size - 1;
+
+    while (queue->size > 0) {
+        NODE *node = createN(WEOF, queue->heap[index]->freq + queue->heap[index - 1]->freq);
+        node->left = queue->heap[index];
+        node->right = queue->heap[index - 1];
+        resize(queue, queue->size - 1);
+        queue->heap[queue->size - 1] = node;
+        index--;
+        sortQueue(queue, index);
+    }
+    return queue->heap[0];
+}
+
+int main() {
+    setlocale(LC_ALL, "");
+
+    FILE *input = fopen("in.txt", "r, ccs=UTF-8");
+    FILE *output = fopen("out.txt", "w, ccs=UTF-8");
+    PRIORITY_QUEUE *queue = initQueue(input, output);
+    fclose(input);
     fclose(output);
 
     return 0;
