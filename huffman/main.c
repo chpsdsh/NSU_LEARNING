@@ -16,8 +16,8 @@ typedef struct pqueue {
 } PRIORITY_QUEUE;
 
 typedef struct huffmanCode {
-    int len;
-    int code;
+    unsigned int symbol;
+    unsigned int code;
 } HUFFMANCODE;
 
 typedef struct BitStream {
@@ -26,6 +26,16 @@ typedef struct BitStream {
     int pos;
 } BITSTREAM;
 
+/*void InOrder(NODE *T) {
+    if (T->left != NULL)
+        InOrder(T->left);
+
+    printf("%lc\n", T->symbol);
+
+    if (T->right != NULL)
+        InOrder(T->right);
+}
+*/
 
 BITSTREAM *createBitStream(FILE *file) {
     BITSTREAM *stream = malloc(sizeof(BITSTREAM));
@@ -70,7 +80,13 @@ void enqueue(PRIORITY_QUEUE *queue, NODE *node) {
 
 }
 
-PRIORITY_QUEUE *initQueue(FILE *input, FILE *output) {
+NODE *delete(PRIORITY_QUEUE *queue) {
+    NODE *node = queue->heap[queue->size - 1];
+    queue->heap = realloc(queue->heap, (--queue->size) * sizeof(NODE *));
+    return node;
+}
+
+PRIORITY_QUEUE *initQueue(FILE *input) {
     wint_t symbol;
     PRIORITY_QUEUE *queue = createQ();
     while ((symbol = fgetwc(input)) != WEOF) {
@@ -92,14 +108,19 @@ PRIORITY_QUEUE *initQueue(FILE *input, FILE *output) {
             enqueue(queue, createN(symbol, 1));
         }
     }
-
-
-    for (int i = 0; i < queue->size; i++) {
-        fwprintf(output, L"%d %lc\n", queue->heap[i]->freq, queue->heap[i]->symbol);
-
-    }
+    /*for (int i = 0; i < queue->size; i++)
+        printf("%lc %d\n", queue->heap[i]->symbol, queue->heap[i]->freq);
+        */
     return queue;
 }
+
+
+int emptyQ(PRIORITY_QUEUE *queue) {
+    if (queue->size == 0)
+        return 1;
+    return 0;
+}
+
 
 void sortQueue(PRIORITY_QUEUE *queue, int index) {
     while (index > 0 && queue->heap[index]->freq > queue->heap[index - 1]->freq) {
@@ -111,51 +132,79 @@ void sortQueue(PRIORITY_QUEUE *queue, int index) {
 }
 
 NODE *createTree(PRIORITY_QUEUE *queue) {
+    //NODE *min = delete(queue);
+    //PRIORITY_QUEUE *NewQueue = createQ();
     int index = queue->size - 1;
+    while (index > 0) {
+        //printf("%d %d %d\n", index,queue->heap[index]->freq,queue->heap[index - 1]->freq);
 
-    while (queue->size > 0) {
         NODE *node = createN(WEOF, queue->heap[index]->freq + queue->heap[index - 1]->freq);
-        node->left = queue->heap[index];
-        node->right = queue->heap[index - 1];
+        node->left = queue->heap[index - 1];
+        node->right = queue->heap[index];
+        queue->heap[--index] = node;
+        printf("%d\t", queue->heap[index]->freq);
         resize(queue, queue->size - 1);
-        queue->heap[queue->size - 1] = node;
-        index--;
+        //index--;
+        //printf("%d\n", index);
         sortQueue(queue, index);
+        printf("%d\n", queue->heap[index]->freq);
+
     }
+    //puts("penis");
+    //InOrder(queue->heap[0]);
     return queue->heap[0];
 }
 
-int lastLeaf(NODE *root) {
-    if (root->left == NULL)
-        return 1;
-    return 0;
-}
 
-void GetCocks(NODE *root, HUFFMANCODE *codes, unsigned int code, int len, int index) {
-    if (lastLeaf(root)) {
-        codes[index].len = len;
-        codes[index++].code = code;
+void GetCocks(NODE *root, unsigned int code, FILE *output) {
+    //printf("%lc %d \n" , root->symbol, code);
+    if (root->left == NULL) {
+        printf("%lc %d\t", root->symbol, code);
+        fprintf(output, "%d_%d\t", root->symbol, code);
+        /*codes[index].symbol = root->symbol;
+        codes[index].code = code;
+        index++;*/
+        return;
     }
-    GetCocks(root->left, codes, code << 1, len + 1, index);
-    GetCocks(root->right, codes, (code << 1) | 1, len + 1, index);
+    GetCocks(root->left, code << 1, output);
+    GetCocks(root->right, (code << 1) | 1, output);
+
 }
 
-void encode(FILE *input, FILE *output) {
-    PRIORITY_QUEUE *queue = initQueue(input, output);
-    HUFFMANCODE *codes = malloc(queue->size * sizeof(HUFFMANCODE *));
-    BITSTREAM *stream = createBitStream(output);
+/*void treeToFile(HUFFMANCODE *codes, int size) {
+    FILE *output = fopen("out.txt", "w, ccs=UTF-8");
+    for (int i = 0; i < size; i++)
+        fprintf(output, "%d %d ", codes[i].symbol, codes[i].code);
+    fclose(output);
+}
+*/
+void GetCocksTable(NODE *root, int size) {
+    //HUFFMANCODE *codes = malloc(size * sizeof(HUFFMANCODE*));
+    //if (!codes)
+    //  return;
+    FILE *output = fopen("out.txt", "w+");
+    GetCocks(root, 0, output);
+    /*for (int i = 0; i< size-1;i++){
+        printf("%d\t",codes[i]);
+    }*/
+    //treeToFile(codes, size);
+    fclose(output);
+}
 
 
+void encode(FILE *input) {
+    PRIORITY_QUEUE *queue = initQueue(input);
+    //BITSTREAM *stream = createBitStream(output);
+    NODE *root = createTree(queue);
+    GetCocksTable(root, queue->size);
 }
 
 int main() {
     setlocale(LC_ALL, "");
 
     FILE *input = fopen("in.txt", "r, ccs=UTF-8");
-    FILE *output = fopen("out.txt", "w, ccs=UTF-8");
-    PRIORITY_QUEUE *queue = initQueue(input, output);
+    encode(input);
     fclose(input);
-    fclose(output);
 
     return 0;
 }
