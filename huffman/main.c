@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <wchar.h>
 #include <locale.h>
+#include <string.h>
 
 #define BUF_SIZE 8
 #define MAX_OCT_SIZE 32
@@ -57,6 +58,25 @@ void writeSymbol(wchar_t symbol, BITSTREAM *stream) {
     }
 }
 
+void readBit(int *bit, BITSTREAM *stream) {
+    if (stream->pos == 0) {
+        fread(&(stream->data), sizeof(char), 1, stream->file);
+        stream->pos = BUF_SIZE;
+    }
+    stream->pos--;
+    *bit = (stream->data >> stream->pos) & 1;
+}
+
+void readSymbol(wchar_t *symbol, BITSTREAM *stream) {
+    *symbol = 0;
+    for (int i = 0; i < MAX_OCT_SIZE; i++) {
+        *symbol = *symbol << 1;
+        int bit;
+        readBit(&bit, stream);
+        *symbol = *symbol | bit;
+    }
+}
+
 void clearBitstream(BITSTREAM *stream) {
     stream->data = stream->data << (BUF_SIZE - stream->pos);
     fwrite(&(stream->data), sizeof(char), 1, stream->file);
@@ -71,13 +91,13 @@ PRIORITY_QUEUE *createQ() {
     return queue;
 }
 
-NODE *createN(wchar_t symbol, int freq) {
+NODE *createN(wchar_t symbol, int freq, NODE *left, NODE *right) {
     NODE *node = malloc(sizeof(NODE));
     if (node != NULL) {
         node->symbol = symbol;
         node->freq = freq;
-        node->left = NULL;
-        node->right = NULL;
+        node->left = left;
+        node->right = right;
     }
     return node;
 }
@@ -129,7 +149,7 @@ PRIORITY_QUEUE *initQueue(FILE *input) {
             }
         }
         if (!inQueue) {
-            enqueue(queue, createN(symbol, 1));
+            enqueue(queue, createN(symbol, 1, NULL,NULL));
         }
     }
     return queue;
@@ -151,7 +171,7 @@ int lastLeave(NODE *root) {
 NODE *createTree(PRIORITY_QUEUE *queue) {
     int index = queue->size - 1;
     while (index > 0) {
-        NODE *node = createN(WEOF, queue->heap[index]->freq + queue->heap[index - 1]->freq);
+        NODE *node = createN(WEOF, queue->heap[index]->freq + queue->heap[index - 1]->freq, NULL, NULL);
         if (node == NULL) {
             return NULL;
         }
@@ -241,14 +261,65 @@ void encode(FILE *input, FILE *output) {
     free(stream);
 }
 
-int main() {
-    setlocale(LC_ALL, "");
-    FILE *input = fopen("in.txt", "r, ccs=UTF-8");
-    FILE *output = fopen("out.txt", "w+");
-    if (input != NULL && output != NULL) {
-        encode(input, output);
-        fclose(input);
-        fclose(output);
+NODE *getTree(BITSTREAM *stream) {
+    int bit;
+    readBit(&bit, stream);
+    if (bit == 1){
+        wint_t symbol;
+        readSymbol(&symbol,stream);
+        return createN(symbol,0,NULL,NULL);
     }
+    NODE *left = getTree(stream);
+    NODE *right = getTree(stream);
+    return createN(0,0,left, right);
+}
+
+void GetSymbol(wint_t *symbol,NODE *root, BITSTREAM *stream){
+    while (!lastLeave(root)){
+        int bit;
+        readBit(&bit, stream);
+        if(bit == 0)
+            root = root->left;
+        root = root->right;
+    }
+    *symbol = root->symbol;
+}
+
+void decode(FILE *input, FILE *output) {
+    int length;
+    //int len = 3;
+    //fwrite(&len, sizeof(int), 1, output);
+    BITSTREAM *stream = createBitStream(input);
+    fread(&length, sizeof(int), 1, input);
+    printf("%d\n", length);
+    NODE *root = getTree(stream);
+    for(int i = 0; i < length; i++){
+        puts("penis");
+        wint_t symbol;
+        GetSymbol(&symbol,root,stream);
+        fwrite(&symbol,sizeof(wint_t),1, output);
+    }
+    free(stream);
+
+}
+
+int main(int argc, char *argv[]) {
+    setlocale(LC_ALL, "");
+
+    char *action = argv[1];
+    char *inputFileName = argv[2];
+    char *outputFileName = argv[3];
+
+    FILE *input = fopen(inputFileName, "r+w, ccs=UTF-8");
+    FILE *output = fopen(outputFileName, "r+w");
+
+    if (strcmp(action, "c") == 0)
+        encode(input, output);
+    else if (strcmp(action, "d") == 0)
+        decode(input, output);
+
+    fclose(input);
+    fclose(output);
+
     return 0;
 }
