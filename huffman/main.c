@@ -1,29 +1,26 @@
+#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <wchar.h>
-#include <locale.h>
 #include <string.h>
-#include <stdlib.h>
-#include <stdint.h>
+#include <wchar.h>
 
 #define BUF_SIZE 8
 #define MAX_OCT_SIZE 32
 
-
 typedef struct huffmanCode {
-    uint32_t symbol;
-    uint32_t code;
+    wchar_t symbol;
+    int code;
     int length;
 } HUFFMANCODE;
 
 typedef struct BitStream {
     FILE *file;
-    uint32_t data;
+    wchar_t data;
     int pos;
 } BITSTREAM;
 
 typedef struct node {
-    uint32_t symbol;
+    wchar_t symbol;
     int freq;
     struct node *left;
     struct node *right;
@@ -57,13 +54,13 @@ void writeBit(int bit, BITSTREAM *stream) {
     stream->pos++;
 }
 
-void writeSymbol(uint32_t symbol, BITSTREAM *stream) {
+void writeSymbol(wint_t symbol, BITSTREAM *stream) {
     for (int i = MAX_OCT_SIZE - 1; i >= 0; i--) {
         int bit = (symbol >> i) & 1;
-        //printf("%d",bit);
+        printf("%d",bit);
         writeBit(bit, stream);
     }
-    //puts("");
+
 }
 
 ERRORS readBit(int *bit, BITSTREAM *stream) {
@@ -74,11 +71,10 @@ ERRORS readBit(int *bit, BITSTREAM *stream) {
     }
     stream->pos -= 1;
     *bit = (stream->data >> stream->pos) & 1;
-    //printf("%d",*bit);
     return noError;
 }
 
-ERRORS readSymbol(uint32_t *symbol, BITSTREAM *stream) {
+ERRORS readSymbol(wchar_t *symbol, BITSTREAM *stream) {
     *symbol = 0;
     for (int i = 0; i < MAX_OCT_SIZE; i++) {
         *symbol = *symbol << 1;
@@ -92,7 +88,7 @@ ERRORS readSymbol(uint32_t *symbol, BITSTREAM *stream) {
 }
 
 void clearBitstream(BITSTREAM *stream) {
-    stream->data = stream->data << (BUF_SIZE - stream->pos);
+    stream->data = stream->data << (BUF_SIZE- stream->pos);
     fwrite(&(stream->data), sizeof(char), 1, stream->file);
 }
 
@@ -100,11 +96,10 @@ PRIORITY_QUEUE *createQ() {
     PRIORITY_QUEUE *queue = malloc(sizeof(PRIORITY_QUEUE));
     queue->size = 0;
     queue->heap = NULL;
-
     return queue;
 }
 
-NODE *createN(uint32_t symbol, int freq, NODE *left, NODE *right) {
+NODE *createN(wchar_t symbol, int freq, NODE *left, NODE *right) {
     NODE *node = malloc(sizeof(NODE));
     if (node != NULL) {
         node->symbol = symbol;
@@ -134,11 +129,8 @@ void enqueue(PRIORITY_QUEUE *queue, NODE *node) {
 }
 
 PRIORITY_QUEUE *initQueue(FILE *input) {
-    if (input == NULL) {
-        return NULL;
-    }
 
-    uint32_t symbol;
+    wchar_t symbol;
     PRIORITY_QUEUE *queue = createQ();
 
 
@@ -184,7 +176,7 @@ int lastLeave(NODE *root) {
     return !root->left;
 }
 
-void GetCocks(NODE *root, unsigned int code, int length, HUFFMANCODE *codes, int *index) {
+void GetCocks(NODE *root, int code, int length, HUFFMANCODE *codes, int *index) {
     if (root->left == NULL) {
         codes[*index].symbol = root->symbol;
         codes[*index].length = length;
@@ -199,18 +191,18 @@ void GetCocks(NODE *root, unsigned int code, int length, HUFFMANCODE *codes, int
 void treeToFile(NODE *root, BITSTREAM *stream) {
     if (lastLeave(root)) {
         writeBit(1, stream);
-        //printf("1");
-        //printf("%c", root->symbol);
         writeSymbol(root->symbol, stream);
+        puts("");
         return;
+    } else {
+        writeBit(0, stream);
+        treeToFile(root->left, stream);
+        treeToFile(root->right, stream);
     }
-    writeBit(0, stream);
-    //printf("0");
-    treeToFile(root->left, stream);
-    treeToFile(root->right, stream);
 }
 
-void codeInput(uint32_t symbol, HUFFMANCODE *codes, BITSTREAM *stream, int codesLen) {
+
+void codeInput(wchar_t symbol, HUFFMANCODE *codes, BITSTREAM *stream, int codesLen) {
     int i;
     for (i = 0; i < codesLen; i++) {
         if (codes[i].symbol == symbol) {
@@ -234,47 +226,31 @@ void print_tree(NODE *tree) {
 }
 
 void encode(FILE *input, FILE *output) {
-    if (input == NULL || output == NULL) {
-        return;
-    }
+
     PRIORITY_QUEUE *queue = initQueue(input);
-    if (queue == NULL) {
-        return;
-    }
+
     BITSTREAM *stream = createBitStream(output);
-    if (stream == NULL) {
-        free(queue);
-        return;
-    }
+
     HUFFMANCODE *codes = malloc(queue->size * sizeof(HUFFMANCODE));
-    if (codes == NULL) {
-        free(queue);
-        free(stream);
-        return;
-    }
+
     NODE *root = createTree(queue);
     print_tree(root);
-    if (root == NULL) {
-        free(queue);
-        free(stream);
-        free(codes);
-        return;
-    }
     int index = 0;
     GetCocks(root, 0, 0, codes, &index);
+    printf("---%d---",root->freq);
     fwrite(&(root->freq), sizeof(int), 1, stream->file);
     treeToFile(root, stream);
+    //
+    wchar_t symbol;
     rewind(input);
-    uint32_t symbol;
-    while ((symbol = fgetwc(input)) != WEOF) {
-
+    while((symbol = fgetwc(input)) != WEOF) {
+        printf("%lc",symbol);
         codeInput(symbol, codes, stream, index);
     }
     clearBitstream(stream);
     free(queue);
     free(codes);
     free(stream);
-    return;
 }
 
 NODE *getTree(BITSTREAM *stream) {
@@ -282,7 +258,7 @@ NODE *getTree(BITSTREAM *stream) {
     if (readBit(&bit, stream) == readingError)
         return NULL;
     if (bit == 1) {
-        int symbol;
+        wchar_t symbol;
         //puts("1");
         if (readSymbol(&symbol, stream) == readingError)
             return NULL;
@@ -294,7 +270,7 @@ NODE *getTree(BITSTREAM *stream) {
     return createN(0, 0, left, right);
 }
 
-ERRORS GetSymbol(uint32_t *symbol, NODE *root, BITSTREAM *stream) {
+ERRORS GetSymbol(long *symbol, NODE *root, BITSTREAM *stream) {
     NODE *current = root;
     while (!lastLeave(current)) {
         //printf("%c", current->symbol);
@@ -308,7 +284,7 @@ ERRORS GetSymbol(uint32_t *symbol, NODE *root, BITSTREAM *stream) {
             current = current->right;
     }
     *symbol = current->symbol;
-    printf("%lc ",*symbol);
+    //printf("%lc ", *symbol);
     return noError;
 }
 
@@ -317,29 +293,29 @@ void decode(FILE *input, FILE *output) {
     BITSTREAM *stream = createBitStream(input);
     int length;
     fread(&length, sizeof(int), 1, input);
-    printf("%d\n", length);
+    printf("----%d-----\n", length);
     NODE *root = getTree(stream);
     //puts("");
     print_tree(root);
     for (int i = 0; i < length; i++) {
-        //puts("penis");
-        uint32_t symbol;
-        if (GetSymbol(&symbol, root, stream) == readingError) {
+        long symbol;
+        if (GetSymbol(&symbol, root, stream) == noError) {
+            printf("%ld ",symbol);
+            /*if(symbol < 256)
+                fwrite(&symbol,sizeof(char),1,output);
+            else if(symbol < 65536 && symbol>=256 ){
+                fprintf(output,"%lc",symbol);
+            }*/
 
-            return;
         }
-        //printf("%d ", symbol);
-        if (symbol <= 0x8F)
-            fwrite(&symbol, sizeof(char), 1, output);
-        else if (0x8F < symbol && symbol <= 0x8FF)
-            fwrite(&symbol, 2 * sizeof(char), 1, output);
-        else if (0x8FF < symbol && symbol <= 0x8FFF)
-            fwrite(&symbol, 3 * sizeof(char), 1, output);
-        else
-            fwrite(&symbol, 4 * sizeof(char), 1, output);
+        else {
+            printf("Error decoding symbol.");
+            break;
+        }
     }
     free(stream);
 }
+
 
 int main(int argc, char *argv[]) {
     setlocale(LC_ALL, "");
@@ -348,16 +324,22 @@ int main(int argc, char *argv[]) {
     char *inputFileName = argv[2];
     char *outputFileName = argv[3];
 
-    FILE *input = fopen(inputFileName, "r+");
-    FILE *output = fopen(outputFileName, "w+");
 
-    if (strcmp(action, "c") == 0)
+    if (strcmp(action, "c") == 0){
+        FILE *input = fopen(inputFileName, "rt+, ccs=UTF-8");
+        FILE *output = fopen(outputFileName, "wt+");
         encode(input, output);
-    else if (strcmp(action, "d") == 0)
-        decode(input, output);
+        fclose(input);
+        fclose(output);
+    }
 
-    fclose(input);
-    fclose(output);
+    else if (strcmp(action, "d") == 0){
+        FILE *input = fopen(inputFileName, "rt+");
+        FILE *output = fopen(outputFileName, "wt+");
+        decode(input, output);
+        fclose(input);
+        fclose(output);
+    }
 
     return 0;
 }
