@@ -1,16 +1,15 @@
-#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 #include <string.h>
-#include <wchar.h>
 
-#define BUF_SIZE 8
-#define MAX_OCT_SIZE 32
+#define BYTE_SIZE 8
+#define TWO_BYTE_SIZE 16
 
 typedef struct huffmanCode {
     wchar_t symbol;
-    int code;
-    int length;
+    unsigned long long code;
+    unsigned int length;
 } HUFFMANCODE;
 
 typedef struct BitStream {
@@ -45,7 +44,7 @@ BITSTREAM *createBitStream(FILE *file) {
 }
 
 void writeBit(int bit, BITSTREAM *stream) {
-    if (stream->pos == BUF_SIZE) {
+    if (stream->pos == BYTE_SIZE) {
         fwrite(&(stream->data), sizeof(char), 1, stream->file);
         stream->pos = 0;
         stream->data = 0;
@@ -54,10 +53,10 @@ void writeBit(int bit, BITSTREAM *stream) {
     stream->pos++;
 }
 
-void writeSymbol(wint_t symbol, BITSTREAM *stream) {
-    for (int i = MAX_OCT_SIZE - 1; i >= 0; i--) {
+void writeSymbol(wchar_t symbol, BITSTREAM *stream) {
+    for (int i = TWO_BYTE_SIZE - 1; i >= 0; i--) {
         int bit = (symbol >> i) & 1;
-        printf("%d",bit);
+        printf("%d", bit);
         writeBit(bit, stream);
     }
 
@@ -67,7 +66,7 @@ ERRORS readBit(int *bit, BITSTREAM *stream) {
     if (stream->pos == 0) {
         if (fread(&(stream->data), sizeof(char), 1, stream->file) != 1)
             return readingError;
-        stream->pos = BUF_SIZE;
+        stream->pos = BYTE_SIZE;
     }
     stream->pos -= 1;
     *bit = (stream->data >> stream->pos) & 1;
@@ -76,19 +75,18 @@ ERRORS readBit(int *bit, BITSTREAM *stream) {
 
 ERRORS readSymbol(wchar_t *symbol, BITSTREAM *stream) {
     *symbol = 0;
-    for (int i = 0; i < MAX_OCT_SIZE; i++) {
-        *symbol = *symbol << 1;
-        int bit;
-        if (readBit(&bit, stream) == readingError)
+    for (int i = 0; i < TWO_BYTE_SIZE - 1; i++) {
+        wint_t wchar;
+        if ((wchar = fgetwc(stream->file)) == WEOF)
             return readingError;
-        *symbol = *symbol | bit;
+        *symbol = *symbol << 1;
+        *symbol = *symbol | (wchar & 1);
     }
-
     return noError;
 }
 
 void clearBitstream(BITSTREAM *stream) {
-    stream->data = stream->data << (BUF_SIZE- stream->pos);
+    stream->data = stream->data << (BYTE_SIZE - stream->pos);
     fwrite(&(stream->data), sizeof(char), 1, stream->file);
 }
 
@@ -112,9 +110,8 @@ NODE *createN(wchar_t symbol, int freq, NODE *left, NODE *right) {
 
 void resize(PRIORITY_QUEUE *queue, int size) {
     queue->heap = realloc(queue->heap, size * sizeof(NODE *));
-    if (queue->heap != NULL) {
-        queue->size = size;
-    }
+    queue->size = size;
+
 }
 
 void enqueue(PRIORITY_QUEUE *queue, NODE *node) {
@@ -132,7 +129,6 @@ PRIORITY_QUEUE *initQueue(FILE *input) {
 
     wchar_t symbol;
     PRIORITY_QUEUE *queue = createQ();
-
 
     while ((symbol = fgetwc(input)) != WEOF) {
         printf("%lc", symbol);
@@ -154,11 +150,14 @@ PRIORITY_QUEUE *initQueue(FILE *input) {
             enqueue(queue, createN(symbol, 1, NULL, NULL));
         }
     }
-    puts("_____");
+
+    puts("");
+    printf("%d", queue->size);
     for (int i = 0; i < queue->size; i++) {
         printf("%c %d\n", queue->heap[i]->symbol, queue->heap[i]->freq);
     }
     puts("______");
+    rewind(input);
     return queue;
 }
 
@@ -176,8 +175,8 @@ int lastLeave(NODE *root) {
     return !root->left;
 }
 
-void GetCocks(NODE *root, int code, int length, HUFFMANCODE *codes, int *index) {
-    if (root->left == NULL) {
+void GetCocks(NODE *root, unsigned long long int code, unsigned int length, HUFFMANCODE *codes, int *index) {
+    if (lastLeave(root)) {
         codes[*index].symbol = root->symbol;
         codes[*index].length = length;
         codes[*index].code = code;
@@ -188,19 +187,12 @@ void GetCocks(NODE *root, int code, int length, HUFFMANCODE *codes, int *index) 
     GetCocks(root->right, (code << 1) | 1, length + 1, codes, index);
 }
 
-void treeToFile(NODE *root, BITSTREAM *stream) {
-    if (lastLeave(root)) {
-        writeBit(1, stream);
-        writeSymbol(root->symbol, stream);
-        puts("");
-        return;
-    } else {
-        writeBit(0, stream);
-        treeToFile(root->left, stream);
-        treeToFile(root->right, stream);
+void CodeQueue(PRIORITY_QUEUE *queue, BITSTREAM *stream) {
+    for (int i = 0; i < queue->size; i++) {
+        fwrite(&(queue->heap[i]->symbol), sizeof(wchar_t), 1, stream->file);
+        fwrite(&(queue->heap[i]->freq), sizeof(int), 1, stream->file);
     }
 }
-
 
 void codeInput(wchar_t symbol, HUFFMANCODE *codes, BITSTREAM *stream, int codesLen) {
     int i;
@@ -211,7 +203,7 @@ void codeInput(wchar_t symbol, HUFFMANCODE *codes, BITSTREAM *stream, int codesL
     }
     for (int j = codes[i].length - 1; j >= 0; j--) {
         int bit = (codes[i].code >> j) & 1;
-        //printf("%d",bit);
+        printf("%d", bit);
         writeBit(bit, stream);
     }
 }
@@ -230,21 +222,21 @@ void encode(FILE *input, FILE *output) {
     PRIORITY_QUEUE *queue = initQueue(input);
 
     BITSTREAM *stream = createBitStream(output);
-
+    fwrite(&(queue->size), sizeof(int), 1, stream->file);
+    printf("%d\n", queue->size);
+    CodeQueue(queue, stream);
     HUFFMANCODE *codes = malloc(queue->size * sizeof(HUFFMANCODE));
-
     NODE *root = createTree(queue);
+    fwrite(&(root->freq), sizeof(int), 1, stream->file);
+
     print_tree(root);
     int index = 0;
     GetCocks(root, 0, 0, codes, &index);
-    printf("---%d---",root->freq);
-    fwrite(&(root->freq), sizeof(int), 1, stream->file);
-    treeToFile(root, stream);
-    //
+
     wchar_t symbol;
-    rewind(input);
-    while((symbol = fgetwc(input)) != WEOF) {
-        printf("%lc",symbol);
+
+    while ((symbol = fgetwc(input)) != WEOF) {
+
         codeInput(symbol, codes, stream, index);
     }
     clearBitstream(stream);
@@ -253,67 +245,51 @@ void encode(FILE *input, FILE *output) {
     free(stream);
 }
 
-NODE *getTree(BITSTREAM *stream) {
-    int bit;
-    if (readBit(&bit, stream) == readingError)
-        return NULL;
-    if (bit == 1) {
+
+PRIORITY_QUEUE *DecodeQueue(BITSTREAM *stream, int size) {
+    PRIORITY_QUEUE *queue = createQ();
+    resize(queue, size);
+    for (int i = 0; i < size; i++) {
         wchar_t symbol;
-        //puts("1");
-        if (readSymbol(&symbol, stream) == readingError)
-            return NULL;
-        //printf("%lc\n", symbol);
-        return createN(symbol, 0, NULL, NULL);
+        int freq;
+        fread(&symbol, sizeof(wchar_t), 1, stream->file);
+        fread(&freq, sizeof(int), 1, stream->file);
+        NODE *node = createN(symbol, freq, NULL, NULL);
+        queue->heap[i] = node;
     }
-    NODE *left = getTree(stream);
-    NODE *right = getTree(stream);
-    return createN(0, 0, left, right);
+    return queue;
 }
 
-ERRORS GetSymbol(long *symbol, NODE *root, BITSTREAM *stream) {
+ERRORS unzip(NODE *root, BITSTREAM *stream, wchar_t *symbol) {
     NODE *current = root;
-    while (!lastLeave(current)) {
-        //printf("%c", current->symbol);
+    while (current->left != NULL) {
         int bit;
         if (readBit(&bit, stream) == readingError)
             return readingError;
-        //printf("%d", bit);
         if (bit == 0)
             current = current->left;
         else
             current = current->right;
     }
     *symbol = current->symbol;
-    //printf("%lc ", *symbol);
     return noError;
 }
 
 void decode(FILE *input, FILE *output) {
-
     BITSTREAM *stream = createBitStream(input);
-    int length;
-    fread(&length, sizeof(int), 1, input);
-    printf("----%d-----\n", length);
-    NODE *root = getTree(stream);
-    //puts("");
+    int size;
+    fread(&size, sizeof(int), 1, stream->file);
+    PRIORITY_QUEUE *queue = DecodeQueue(stream, size);
+    NODE *root = createTree(queue);
     print_tree(root);
+    int length;
+    fread(&length, sizeof(int), 1, stream->file);
     for (int i = 0; i < length; i++) {
-        long symbol;
-        if (GetSymbol(&symbol, root, stream) == noError) {
-            printf("%ld ",symbol);
-            /*if(symbol < 256)
-                fwrite(&symbol,sizeof(char),1,output);
-            else if(symbol < 65536 && symbol>=256 ){
-                fprintf(output,"%lc",symbol);
-            }*/
-
-        }
-        else {
-            printf("Error decoding symbol.");
-            break;
-        }
+        wchar_t symbol;
+        if (unzip(root, stream, &symbol) == readingError)
+            return;
+        fprintf(output, "%lc", symbol);
     }
-    free(stream);
 }
 
 
@@ -325,17 +301,15 @@ int main(int argc, char *argv[]) {
     char *outputFileName = argv[3];
 
 
-    if (strcmp(action, "c") == 0){
-        FILE *input = fopen(inputFileName, "rt+, ccs=UTF-8");
-        FILE *output = fopen(outputFileName, "wt+");
+    if (strcmp(action, "c") == 0) {
+        FILE *input = fopen(inputFileName, "r+, ccs=UTF-8");
+        FILE *output = fopen(outputFileName, "wb");
         encode(input, output);
         fclose(input);
         fclose(output);
-    }
-
-    else if (strcmp(action, "d") == 0){
+    } else if (strcmp(action, "d") == 0) {
         FILE *input = fopen(inputFileName, "rt+");
-        FILE *output = fopen(outputFileName, "wt+");
+        FILE *output = fopen(outputFileName, "w");
         decode(input, output);
         fclose(input);
         fclose(output);
