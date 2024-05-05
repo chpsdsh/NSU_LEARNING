@@ -303,7 +303,8 @@ void decode(FILE *input, FILE *output) {
             free(stream);
             return;
         }
-        fwprintf(output, L"%lc", symbol);
+        fwrite(&symbol,sizeof(wchar_t),1,output);
+        //fwprintf(output, L"%lc", symbol);
     }
     destroy_tree(root);
     free(stream);
@@ -319,14 +320,14 @@ int main(int argc, char *argv[]) {
 
 
     if (strcmp(action, "c") == 0) {
-        FILE *input = fopen(inputFileName, "r,ccs=UTF-8");
+        FILE *input = fopen(inputFileName, "rb");
         FILE *output = fopen(outputFileName, "wb");
         encode(input, output);
         fclose(input);
         fclose(output);
     } else if (strcmp(action, "d") == 0) {
         FILE *input = fopen(inputFileName, "rb");
-        FILE *output = fopen(outputFileName, "wt,ccs=UTF-8");
+        FILE *output = fopen(outputFileName, "wb");
         decode(input, output);
         fclose(input);
         fclose(output);
