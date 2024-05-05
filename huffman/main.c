@@ -203,15 +203,8 @@ void codeInput(wchar_t symbol, HUFFMANCODE *codes, BITSTREAM *stream, int codesL
     }
 }
 
-void print_tree(NODE *tree) {
-    printf("%d %lc -- %d\n", tree->symbol, tree->symbol, tree->freq);
-    if (tree->left != NULL)
-        print_tree(tree->left);
-    if (tree->right != NULL)
-        print_tree(tree->right);
-}
 
-void destroy_tree(NODE* root) {
+void destroy_tree(NODE *root) {
     if (root == NULL) {
         return;
     }
@@ -224,13 +217,10 @@ void destroy_tree(NODE* root) {
 void treeToFile(NODE *root, BITSTREAM *stream) {
     if (lastLeave(root)) {
         writeBit(1, stream);
-        printf("1");
-        printf("%c", root->symbol);
         writeSymbol(root->symbol, stream);
         return;
     }
     writeBit(0, stream);
-    printf("0");
     treeToFile(root->left, stream);
     treeToFile(root->right, stream);
 }
@@ -240,7 +230,6 @@ void encode(FILE *input, FILE *output) {
     BITSTREAM *stream = createBitStream(output);
     HUFFMANCODE *codes = malloc(queue->size * sizeof(HUFFMANCODE));
     NODE *root = createTree(queue);
-    print_tree(root);
     fwrite(&(root->freq), sizeof(int), 1, stream->file);
     treeToFile(root, stream);
     int index = 0;
@@ -292,9 +281,7 @@ void decode(FILE *input, FILE *output) {
     BITSTREAM *stream = createBitStream(input);
     int length;
     fread(&length, sizeof(int), 1, stream->file);
-    printf("%d", length);
     NODE *root = getTree(stream);
-    print_tree(root);
 
     for (int i = 0; i < length; i++) {
         wchar_t symbol;
@@ -303,8 +290,7 @@ void decode(FILE *input, FILE *output) {
             free(stream);
             return;
         }
-        fwrite(&symbol,sizeof(wchar_t),1,output);
-        //fwprintf(output, L"%lc", symbol);
+        fwrite(&symbol, sizeof(wchar_t), 1, output);
     }
     destroy_tree(root);
     free(stream);
@@ -317,7 +303,6 @@ int main(int argc, char *argv[]) {
     char *action = argv[1];
     char *inputFileName = argv[2];
     char *outputFileName = argv[3];
-
 
     if (strcmp(action, "c") == 0) {
         FILE *input = fopen(inputFileName, "rb");
