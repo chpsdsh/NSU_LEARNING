@@ -35,6 +35,14 @@ typedef enum error {
     readingError,
 } ERRORS;
 
+int EvenNumber(int number) {
+    if (number == (number / 2) * 2)
+        return number;
+    else
+        return number + 1;
+
+}
+
 BITSTREAM *createBitStream(FILE *file) {
     BITSTREAM *stream = malloc(sizeof(BITSTREAM));
     if (!stream) {
@@ -139,8 +147,13 @@ void enqueue(PRIORITY_QUEUE *queue, NODE *node) {
 PRIORITY_QUEUE *initQueue(FILE *input) {
     wchar_t symbol;
     PRIORITY_QUEUE *queue = createQ();
+    fseek(input, 0, SEEK_END);
+    long numBytes = ftell(input);
+    //numBytes= EvenNumber(numBytes);
+    rewind(input);
 
-    while ((symbol = fgetwc(input)) != WEOF) {
+    for (int i = 0; i < (numBytes / sizeof(wchar_t)); i++) {
+        symbol = fgetwc(input);
         int inQueue = 0;
         for (int i = 0; i < queue->size; i++) {
             if (queue->heap[i]->symbol == symbol) {
@@ -234,8 +247,14 @@ void encode(FILE *input, FILE *output) {
     treeToFile(root, stream);
     int index = 0;
     GetCocks(root, 0, 0, codes, &index);
+
+    fseek(input, 0, SEEK_END);
+    long numBytes = ftell(input);
+    //numBytes= EvenNumber(numBytes);
+    rewind(input);
     wchar_t symbol;
-    while ((symbol = fgetwc(input)) != WEOF) {
+    for (int i = 0; i < (numBytes / sizeof(wchar_t)); i++) {
+        symbol = fgetwc(input);
         codeInput(symbol, codes, stream, index);
     }
     clearBitstream(stream);
