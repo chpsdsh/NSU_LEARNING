@@ -181,7 +181,7 @@ int lastLeave(NODE *root) {
     return !root->left;
 }
 
-void GetCocks(NODE *root,  unsigned long long code, int length, HUFFMANCODE *codes, int *index) {
+void GetCodes(NODE *root,  unsigned long long code, int length, HUFFMANCODE *codes, int *index) {
     if (lastLeave(root)) {
         codes[*index].symbol = root->symbol;
         codes[*index].length = length;
@@ -189,8 +189,8 @@ void GetCocks(NODE *root,  unsigned long long code, int length, HUFFMANCODE *cod
         (*index)++;
         return;
     }
-    GetCocks(root->left, code << 1, length + 1, codes, index);
-    GetCocks(root->right, (code << 1) | 1, length + 1, codes, index);
+    GetCodes(root->left, code << 1, length + 1, codes, index);
+    GetCodes(root->right, (code << 1) | 1, length + 1, codes, index);
 }
 
 
@@ -237,7 +237,7 @@ void encode(FILE *input, FILE *output) {
     fwrite(&(root->freq), sizeof(int), 1, stream->file);
     treeToFile(root, stream);
     int index = 0;
-    GetCocks(root, 0, 0, codes, &index);
+    GetCodes(root, 0, 0, codes, &index);
 
     fseek(input, 0, SEEK_END);
     long numBytes = ftell(input);
