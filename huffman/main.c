@@ -35,14 +35,6 @@ typedef enum error {
     readingError,
 } ERRORS;
 
-int EvenNumber(int number) {
-    if (number == (number / 2) * 2)
-        return number;
-    else
-        return number + 1;
-
-}
-
 BITSTREAM *createBitStream(FILE *file) {
     BITSTREAM *stream = malloc(sizeof(BITSTREAM));
     if (!stream) {
@@ -149,7 +141,6 @@ PRIORITY_QUEUE *initQueue(FILE *input) {
     PRIORITY_QUEUE *queue = createQ();
     fseek(input, 0, SEEK_END);
     long numBytes = ftell(input);
-    //numBytes= EvenNumber(numBytes);
     rewind(input);
 
     for (int i = 0; i < (numBytes / sizeof(wchar_t)); i++) {
@@ -250,7 +241,6 @@ void encode(FILE *input, FILE *output) {
 
     fseek(input, 0, SEEK_END);
     long numBytes = ftell(input);
-    //numBytes= EvenNumber(numBytes);
     rewind(input);
     wchar_t symbol;
     for (int i = 0; i < (numBytes / sizeof(wchar_t)); i++) {
