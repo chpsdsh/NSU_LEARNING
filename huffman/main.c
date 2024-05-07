@@ -181,7 +181,7 @@ int lastLeave(NODE *root) {
     return !root->left;
 }
 
-void GetCocks(NODE *root, const unsigned long long int code, int length, HUFFMANCODE *codes, int *index) {
+void GetCocks(NODE *root,  unsigned long long code, int length, HUFFMANCODE *codes, int *index) {
     if (lastLeave(root)) {
         codes[*index].symbol = root->symbol;
         codes[*index].length = length;
